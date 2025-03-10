@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="WP默认总是会带很多版权相关的东西。但是咱普通用户看着又不爽。清理下吧顺便在加个说说面板">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress优化">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="WP默认总是会带很多版权相关的东西。但是咱普通用户看着又不爽。清理下吧顺便在加个说说面板">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-03-10T15:33:05.000Z">
+<meta property="article:modified_time" content="2025-03-10T15:36:05.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>WordPress优化</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/waydroid%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/OD%E7%A4%BE%E6%8B%9B/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&text=WordPress优化"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&is_video=false&description=WordPress优化"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WordPress优化&body=Check out this article: https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&name=WordPress优化&description=&lt;p&gt;&lt;em&gt;WP默认总是会带很多版权相关的东西。但是咱普通用户看着又不爽。清理下吧顺便在加个说说面板&lt;/em&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&t=WordPress优化"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WP%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%85%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">WP的自定义清理</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        WordPress优化
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T15:33:05.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><em>WP默认总是会带很多版权相关的东西。但是咱普通用户看着又不爽。清理下吧顺便在加个说说面板</em></p>
+<span id="more"></span>
+
+<h1 id="WP的自定义清理"><a href="#WP的自定义清理" class="headerlink" title="WP的自定义清理"></a>WP的自定义清理</h1><p>我用的<strong>noto-simple</strong>主题</p>
+<p>在主题目录新建一个<code>functions-diy.php</code></p>
+<p>​&#96;&#96;&#96;php<br>&lt;?php<br>&#x2F;&#x2F;function.php中插入该代码，该文件重命名为functions-diy.php<br>&#x2F;&#x2F;require get_template_directory() . ‘&#x2F;functions-diy.php’;</p>
+<p>&#x2F;&#x2F;说说<br>add_action(‘init’, ‘my_custom_init’);<br>function my_custom_init() {<br>    $labels &#x3D; array( ‘name’ &#x3D;&gt; ‘说说’, ‘singular_name’ &#x3D;&gt; ‘singularname’, ‘add_new’ &#x3D;&gt; ‘发表说说’, ‘add_new_item’ &#x3D;&gt; ‘发表说说’, ‘edit_item’ &#x3D;&gt; ‘编辑说说’, ‘new_item’ &#x3D;&gt; ‘新说说’, ‘view_item’ &#x3D;&gt; ‘查看说说’, ‘search_items’ &#x3D;&gt; ‘搜索说说’, ‘not_found’ &#x3D;&gt; ‘暂无说说’, ‘not_found_in_trash’ &#x3D;&gt; ‘没有已遗弃的说说’, ‘parent_item_colon’ &#x3D;&gt; ‘’, ‘menu_name’ &#x3D;&gt; ‘说说’ );<br>    $args &#x3D; array( ‘labels’ &#x3D;&gt; $labels, ‘public’ &#x3D;&gt; true, ‘publicly_queryable’ &#x3D;&gt; true, ‘show_ui’ &#x3D;&gt; true, ‘show_in_menu’ &#x3D;&gt; true, ‘query_var’ &#x3D;&gt; true, ‘rewrite’ &#x3D;&gt; true, ‘capability_type’ &#x3D;&gt; ‘post’, ‘has_archive’ &#x3D;&gt; true, ‘hierarchical’ &#x3D;&gt; false, ‘menu_position’ &#x3D;&gt; null, ‘supports’ &#x3D;&gt; array(‘title’,’editor’,’author’) );<br>    register_post_type(‘shuoshuo’,$args);<br>    }</p>
+<p>&#x2F;&#x2F;自定义登录页面的LOGO提示为网站名称<br>add_filter(‘login_headertitle’, create_function(false,”return get_bloginfo(‘name’);”));</p>
+<p>&#x2F;&#x2F;自定义登录页面的LOGO链接为首页链接<br>add_filter(‘login_headerurl’, create_function(false,”return get_bloginfo(‘url’);”));</p>
+<p>&#x2F;&#x2F; &#x2F;&#x2F;修改登陆logo链接<br>&#x2F;&#x2F; function custom_loginlogo_url($url) {<br>&#x2F;&#x2F; return ‘<a target="_blank" rel="noopener" href="https://shawshang.cn/">https://shawshang.cn</a>‘;<br>&#x2F;&#x2F; }<br>&#x2F;&#x2F; add_filter( ‘login_headerurl’, ‘custom_loginlogo_url’ );</p>
+<p>&#x2F;&#x2F;WordPress 去除后台标题中的“—— WordPress”<br>add_filter(‘admin_title’, ‘wpdx_custom_admin_title’, 10, 2);<br>function wpdx_custom_admin_title($admin_title, $title){<br>    return $title.’ ‹ ‘.get_bloginfo(‘name’);<br>}</p>
+<p>&#x2F;&#x2F;去掉仪表盘最下面的wordpress链接<br>function footerText () {<br>    return ‘’;<br>}</p>
+<p>&#x2F;&#x2F;页脚版本信息<br>function change_footer_admin () {return ‘’;}<br>add_filter(‘admin_footer_text’, ‘change_footer_admin’, 9999);<br>function change_footer_version() {return ‘’;}<br>add_filter( ‘update_footer’, ‘change_footer_version’, 9999);</p>
+<p>&#x2F;&#x2F;自定义登录页面的LOGO图片<br>function my_custom_login_logo() {<br>    echo ‘<style type="text/css"><br>        .login h1 a {<br>            background-image:url(“&#x2F;wp-content&#x2F;themes&#x2F;login.png”) !important;<br>        height: 86px; &#x2F;&#x2F;修改为图片的高度<br>        width: 86px; &#x2F;&#x2F;修改为图标的宽度<br>        -webkit-background-size: 86px; &#x2F;&#x2F;修改为图标的宽度<br>        background-size: 86px; &#x2F;&#x2F;修改为图标的宽度<br>        }<br>    </style>‘;<br>}<br>add_action(‘login_head’, ‘my_custom_login_logo’);</p>
+<p>&#x2F;&#x2F;顶部工具栏<br>function my_edit_toolbar($wp_toolbar) {<br>   $wp_toolbar-&gt;remove_node(‘wp-logo’); &#x2F;&#x2F; 去掉 WordPress LOGO<br>   &#x2F;&#x2F;$wp_toolbar-&gt;remove_node(‘site-name’); &#x2F;&#x2F; 去掉网站名称<br>   &#x2F;&#x2F;$wp_toolbar-&gt;remove_node(‘updates’); &#x2F;&#x2F; 去掉更新提醒<br>   &#x2F;&#x2F;$wp_toolbar-&gt;remove_node(‘comments’); &#x2F;&#x2F; 去掉评论提醒<br>   &#x2F;&#x2F;$wp_toolbar-&gt;remove_node(‘new-content’); &#x2F;&#x2F; 去掉新建文件<br>   $wp_toolbar-&gt;remove_node(‘top-secondary’); &#x2F;&#x2F; 用户信息<br>}<br>add_action(‘admin_bar_menu’, ‘my_edit_toolbar’, 999);</p>
+<p>&#x2F;&#x2F;左侧顶级菜单<br>&#x2F;*<br>function remove_menus() {<br>   global $menu;<br>   $restricted &#x3D; array(<br>      __(‘Dashboard’), &#x2F;&#x2F; 仪表盘<br>      __(‘Posts’), &#x2F;&#x2F; 文章<br>      __(‘Media’), &#x2F;&#x2F; 媒体<br>      __(‘Links’), &#x2F;&#x2F; 链接<br>      __(‘Pages’), &#x2F;&#x2F; 页面<br>      __(‘Appearance’), &#x2F;&#x2F; 外观<br>      __(‘Tools’), &#x2F;&#x2F; 工具<br>      __(‘Users’), &#x2F;&#x2F; 用户<br>      __(‘Settings’), &#x2F;&#x2F; 设置<br>      __(‘Comments’), &#x2F;&#x2F; 评论<br>      __(‘Plugins’) &#x2F;&#x2F; 插件<br>   );<br>   end ($menu);<br>   while (prev($menu)){<br>      $value &#x3D; explode(‘ ‘,$menu[key($menu)][0]);<br>      if(strpos($value[0], ‘&lt;’) &#x3D;&#x3D;&#x3D; FALSE) {<br>         if(in_array($value[0] !&#x3D; NULL ? $value[0]:”” , $restricted)){<br>            unset($menu[key($menu)]);<br>         }<br>      }else {<br>         $value2 &#x3D; explode(‘&lt;’, $value[0]);<br>         if(in_array($value2[0] !&#x3D; NULL ? $value2[0]:”” , $restricted)){<br>            unset($menu[key($menu)]);<br>         }<br>      }<br>   }<br>}<br>&#x2F;&#x2F; 是后台的情况时<br>if (is_admin()){<br>   add_action(‘admin_menu’, ‘remove_menus’);<br>}<br>*&#x2F;</p>
+<p>&#x2F;&#x2F;左侧子菜单<br>&#x2F;*<br>具体的缩略名如何获取呢？这里举例说明：<br>我们点击仪表盘时 url 为 &#x2F;wp-admin&#x2F;index.php，点击首页时也是，点击更新时为 &#x2F;wp-admin&#x2F;update-core.php，其他的依次类推～<br>只需要获取顶级菜单和子菜单相应的缩略名，然后在 remove_submenu() 函数内添加 remove_submenu_page() 函数即可<br><em>&#x2F;<br>&#x2F;</em><br>function remove_submenu() {<br>   &#x2F;&#x2F; 删除仪表盘下的首页<br>   remove_submenu_page(‘index.php’, ‘index.php’);<br>   &#x2F;&#x2F; 删除仪表盘下的更新<br>   remove_submenu_page(‘index.php’, ‘update-core.php’);<br>}<br>if (is_admin()){<br>   &#x2F;&#x2F;删除子菜单<br>   add_action(‘admin_init’,’remove_submenu’);<br>}<br>*&#x2F;</p>
+<p>&#x2F;&#x2F;仪表盘无用模块<br>function example_remove_dashboard_widgets() {<br>   global $wp_meta_boxes;<br>   &#x2F;&#x2F; 以下这一行代码将删除 “快速发布” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘side’][‘core’][‘dashboard_quick_press’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “引入链接” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘normal’][‘core’][‘dashboard_incoming_links’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “插件” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘normal’][‘core’][‘dashboard_plugins’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “近期评论” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘normal’][‘core’][‘dashboard_recent_comments’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “近期草稿” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘side’][‘core’][‘dashboard_recent_drafts’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “WordPress 开发日志” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘side’][‘core’][‘dashboard_primary’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “其它 WordPress 新闻” 模块<br>   unset($wp_meta_boxes[‘dashboard’][‘side’][‘core’][‘dashboard_secondary’]);<br>   &#x2F;&#x2F; 以下这一行代码将删除 “概况” 模块<br>   &#x2F;&#x2F;unset($wp_meta_boxes[‘dashboard’][‘normal’][‘core’][‘dashboard_right_now’]);<br>}<br>add_action(‘wp_dashboard_setup’, ‘example_remove_dashboard_widgets’ );</p>
+<p>&#x2F;&#x2F;显示选项和帮助选项卡<br>function remove_screen_options(){ return false;}<br>add_filter(‘screen_options_show_screen’, ‘remove_screen_options’);<br>add_filter( ‘contextual_help’, ‘syz_remove_help’, 999, 3 );<br>function syz_remove_help($old_help, $screen_id, $screen){<br>   $screen-&gt;remove_help_tabs();<br>   return $old_help;<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">添加以下到`/wp-content/themes/noto-simple/functions.php`</span><br><span class="line"></span><br><span class="line">```php</span><br><span class="line">require get_template_directory() . &#x27;/functions-diy.php&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>/wp-content/themes/noto-simple/footer.php</code></p>
+<p>使用<code>echo</code>来自定义页脚</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&#x27;http://beian.miit.gov.cn&#x27;</span> <span class="attr">title</span>=<span class="string">&#x27;&#x27;</span>&gt;</span>蜀ICP备18033672号-1<span class="tag">&lt;/<span class="name">a</span>&gt;</span>&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>登陆界面的图标</p>
+<p>将<code>login.png</code>放到<code>/wp-content/themes/</code>下</p>
+<p>把image.peg放到网站的根目录下</p>
+<p>说说，新建shuoshuo.php到<code>/wp-content/themes/noto-simple/footer.php</code>下，在wp后台新建页面选择该模板保存即可</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="comment">/*</span></span><br><span class="line"><span class="comment">        Template Name: 说说</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line"><span class="title function_ invoke__">get_header</span>(); <span class="meta">?&gt;</span></span><br><span class="line">&lt;style type=<span class="string">&quot;text/css&quot;</span>&gt;</span><br><span class="line">  <span class="comment">#shuoshuo_content &#123;</span></span><br><span class="line">    background-color: <span class="comment">#fff;</span></span><br><span class="line">    padding: <span class="number">10</span>px;</span><br><span class="line">    min-height: <span class="number">500</span>px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* shuo */</span></span><br><span class="line">  body.theme-dark .cbp_tmtimeline::<span class="variable constant_">before</span> &#123;</span><br><span class="line">    background: <span class="title function_ invoke__">RGBA</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.06</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ul.cbp_tmtimeline &#123;</span><br><span class="line">    padding: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  div <span class="keyword">class</span>.cdp_tmlabel&gt;li .cbp_tmlabel &#123;</span><br><span class="line">    margin-bottom: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline &#123;</span><br><span class="line">    margin: <span class="number">30</span>px <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">    padding: <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">list</span>-style: none;</span><br><span class="line">    position: relative;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The line */</span></span><br><span class="line">  .cbp_tmtimeline:before &#123;</span><br><span class="line">    content: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: <span class="number">0</span>;</span><br><span class="line">    bottom: <span class="number">0</span>;</span><br><span class="line">    width: <span class="number">4</span>px;</span><br><span class="line">    background: <span class="title function_ invoke__">RGBA</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.02</span>);</span><br><span class="line">    left: <span class="number">80</span>px;</span><br><span class="line">    margin-left: <span class="number">10</span>px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The date/time */</span></span><br><span class="line">  .cbp_tmtimeline&gt;li .cbp_tmtime &#123;</span><br><span class="line">    display: block;</span><br><span class="line">    <span class="comment">/* width: 29%; */</span></span><br><span class="line">    <span class="comment">/* padding-right: 110px; */</span></span><br><span class="line">    max-width: <span class="number">70</span>px;</span><br><span class="line">    position: absolute;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline&gt;li .cbp_tmtime span &#123;</span><br><span class="line">    display: block;</span><br><span class="line">    text-align: right;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline&gt;li .cbp_tmtime span:first-child &#123;</span><br><span class="line">    font-size: <span class="number">0.9</span>em;</span><br><span class="line">    color: <span class="comment">#bdd0db;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline&gt;li .cbp_tmtime span:last-child &#123;</span><br><span class="line">    font-size: <span class="number">1.2</span>em;</span><br><span class="line">    color: <span class="comment">#9BCD9B;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline&gt;li:nth-<span class="title function_ invoke__">child</span>(odd) .cbp_tmtime span:last-child &#123;</span><br><span class="line">    color: <span class="title function_ invoke__">RGBA</span>(<span class="number">255</span>, <span class="number">125</span>, <span class="number">73</span>, <span class="number">0.75</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  div.cbp_tmlabel&gt;p &#123;</span><br><span class="line">    margin-bottom: <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Right content */</span></span><br><span class="line">  .cbp_tmtimeline&gt;li .cbp_tmlabel &#123;</span><br><span class="line">    margin: <span class="number">0</span> <span class="number">0</span> <span class="number">45</span>px <span class="number">65</span>px;</span><br><span class="line">    background: <span class="comment">#9BCD9B;</span></span><br><span class="line">    color: <span class="comment">#fff;</span></span><br><span class="line">    padding: <span class="number">.8</span>em <span class="number">1.2</span>em <span class="number">.4</span>em <span class="number">1.2</span>em;</span><br><span class="line">    <span class="comment">/* font-size: 1.2em; */</span></span><br><span class="line">    font-weight: <span class="number">300</span>;</span><br><span class="line">    line-height: <span class="number">1.4</span>;</span><br><span class="line">    position: relative;</span><br><span class="line">    border-radius: <span class="number">5</span>px;</span><br><span class="line">    transition: all <span class="number">0.3</span>s ease <span class="number">0</span>s;</span><br><span class="line">    box-shadow: <span class="number">0</span> <span class="number">1</span>px <span class="number">2</span>px <span class="title function_ invoke__">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.15</span>);</span><br><span class="line">    cursor: pointer;</span><br><span class="line">    display: block;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmlabel:hover &#123;</span><br><span class="line">    <span class="comment">/* transform:scale(1.05); */</span></span><br><span class="line">    transform: <span class="title function_ invoke__">translateY</span>(-<span class="number">3</span>px);</span><br><span class="line">    z-index: <span class="number">1</span>;</span><br><span class="line">    -webkit-box-shadow: <span class="number">0</span> <span class="number">15</span>px <span class="number">32</span>px <span class="title function_ invoke__">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.15</span>) !important</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline&gt;li:nth-<span class="title function_ invoke__">child</span>(odd) .cbp_tmlabel &#123;</span><br><span class="line">    background: <span class="title function_ invoke__">RGBA</span>(<span class="number">255</span>, <span class="number">125</span>, <span class="number">73</span>, <span class="number">0.75</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The triangle */</span></span><br><span class="line">  .cbp_tmtimeline&gt;li .cbp_tmlabel:after &#123;</span><br><span class="line">    right: <span class="number">100</span>%;</span><br><span class="line">    border: solid transparent;</span><br><span class="line">    content: <span class="string">&quot; &quot;</span>;</span><br><span class="line">    height: <span class="number">0</span>;</span><br><span class="line">    width: <span class="number">0</span>;</span><br><span class="line">    position: absolute;</span><br><span class="line">    pointer-events: none;</span><br><span class="line">    border-right-color: <span class="comment">#9BCD9B;</span></span><br><span class="line">    border-width: <span class="number">10</span>px;</span><br><span class="line">    top: <span class="number">4</span>px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .cbp_tmtimeline&gt;li:nth-<span class="title function_ invoke__">child</span>(odd) .cbp_tmlabel:after &#123;</span><br><span class="line">    border-right-color: <span class="title function_ invoke__">RGBA</span>(<span class="number">255</span>, <span class="number">125</span>, <span class="number">73</span>, <span class="number">0.75</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  p.shuoshuo_time &#123;</span><br><span class="line">    margin-top: <span class="number">10</span>px;</span><br><span class="line">    border-top: <span class="number">1</span>px dashed <span class="comment">#fff;</span></span><br><span class="line">    padding-top: <span class="number">5</span>px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Media */</span></span><br><span class="line">  @media screen <span class="keyword">and</span> (max-width: <span class="number">65.375</span>em) &#123;</span><br><span class="line">    .cbp_tmtimeline&gt;li .cbp_tmtime span:last-child &#123;</span><br><span class="line">      font-size: <span class="number">1.2</span>em;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .shuoshuo_author_img img &#123;</span><br><span class="line">    border: <span class="number">1</span>px solid <span class="comment">#ddd;</span></span><br><span class="line">    padding: <span class="number">2</span>px;</span><br><span class="line">    <span class="keyword">float</span>: left;</span><br><span class="line">    border-radius: <span class="number">64</span>px;</span><br><span class="line">    transition: all <span class="number">1.0</span>s;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .avatar &#123;</span><br><span class="line">    -webkit-border-radius: <span class="number">100</span>% !important;</span><br><span class="line">    -moz-border-radius: <span class="number">100</span>% !important;</span><br><span class="line">    box-shadow: inset <span class="number">0</span> -<span class="number">1</span>px <span class="number">0</span> <span class="comment">#3333sf;</span></span><br><span class="line">    -webkit-box-shadow: inset <span class="number">0</span> -<span class="number">1</span>px <span class="number">0</span> <span class="comment">#3333sf;</span></span><br><span class="line">    -webkit-transition: <span class="number">0.4</span>s;</span><br><span class="line">    -webkit-transition: -webkit-transform <span class="number">0.4</span>s ease-out;</span><br><span class="line">    transition: transform <span class="number">0.4</span>s ease-out;</span><br><span class="line">    -moz-transition: -moz-transform <span class="number">0.4</span>s ease-out;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .zhuan &#123;</span><br><span class="line">    transform: <span class="title function_ invoke__">rotateZ</span>(<span class="number">720</span>deg);</span><br><span class="line">    -webkit-transform: <span class="title function_ invoke__">rotateZ</span>(<span class="number">720</span>deg);</span><br><span class="line">    -moz-transform: <span class="title function_ invoke__">rotateZ</span>(<span class="number">720</span>deg);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* end */</span></span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div id=<span class="string">&quot;primary&quot;</span> <span class="class"><span class="keyword">class</span>=&quot;<span class="title">content</span>-<span class="title">area</span>&quot; <span class="title">style</span>=&quot;&quot;&gt;</span></span><br><span class="line"><span class="class">    &lt;<span class="title">main</span> <span class="title">id</span>=&quot;<span class="title">main</span>&quot; <span class="title">class</span>=&quot;<span class="title">site</span>-<span class="title">main</span>&quot; <span class="title">role</span>=&quot;<span class="title">main</span>&quot;&gt;</span></span><br><span class="line"><span class="class">      &lt;<span class="title">div</span> <span class="title">id</span>=&quot;<span class="title">shuoshuo_content</span>&quot;&gt;</span></span><br><span class="line"><span class="class">        &lt;<span class="title">ul</span> <span class="title">class</span>=&quot;<span class="title">cbp_tmtimeline</span>&quot;&gt;</span></span><br><span class="line"><span class="class">          &lt;?<span class="title">php</span> <span class="title">query_posts</span>(&quot;<span class="title">post_type</span>=<span class="title">shuoshuo</span>&amp;<span class="title">post_status</span>=<span class="title">publish</span>&amp;<span class="title">posts_per_page</span>=-1&quot;);</span></span><br><span class="line"><span class="class">          <span class="title">if</span> (<span class="title">have_posts</span>()) : <span class="title">while</span> (<span class="title">have_posts</span>()) : <span class="title">the_post</span>(); ?&gt;</span></span><br><span class="line"><span class="class">              &lt;<span class="title">li</span>&gt; &lt;<span class="title">span</span> <span class="title">class</span>=&quot;<span class="title">shuoshuo_author_img</span>&quot;&gt;&lt;<span class="title">img</span> <span class="title">src</span>=&quot;/<span class="title">image</span>.<span class="title">jpg</span>&quot; <span class="title">class</span>=&quot;<span class="title">avatar</span> <span class="title">avatar</span>-48&quot; <span class="title">width</span>=&quot;48&quot; <span class="title">height</span>=&quot;48&quot;&gt;&lt;/<span class="title">span</span>&gt;</span></span><br><span class="line"><span class="class">                &lt;<span class="title">a</span> <span class="title">class</span>=&quot;<span class="title">cbp_tmlabel</span>&quot; <span class="title">href</span>=&quot;<span class="title">javascript</span>:<span class="title">void</span>(0)&quot;&gt;</span></span><br><span class="line"><span class="class">                  &lt;<span class="title">p</span>&gt;&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"><span class="class">                  &lt;<span class="title">p</span>&gt;&lt;?<span class="title">php</span> <span class="title">the_content</span>(); ?&gt;&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"><span class="class">                  &lt;<span class="title">p</span>&gt;&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"><span class="class">                  &lt;<span class="title">p</span> <span class="title">class</span>=&quot;<span class="title">shuoshuo_time</span>&quot;&gt;&lt;<span class="title">i</span> <span class="title">class</span>=&quot;<span class="title">fa</span> <span class="title">fa</span>-<span class="title">clock</span>-<span class="title">o</span>&quot;&gt;&lt;/<span class="title">i</span>&gt;</span></span><br><span class="line"><span class="class">                    &lt;?<span class="title">php</span> <span class="title">the_time</span>(&#x27;<span class="title">Y</span>年<span class="title">n</span>月<span class="title">j</span>日<span class="title">G</span>:<span class="title">i</span>&#x27;); ?&gt;</span></span><br><span class="line"><span class="class">                  &lt;/<span class="title">p</span>&gt;</span></span><br><span class="line"><span class="class">                &lt;/<span class="title">a</span>&gt;</span></span><br><span class="line"><span class="class">            &lt;?<span class="title">php</span> <span class="title">endwhile</span>;</span></span><br><span class="line"><span class="class">          <span class="title">endif</span>; ?&gt;</span></span><br><span class="line"><span class="class">              &lt;/<span class="title">li</span>&gt;</span></span><br><span class="line"><span class="class">        &lt;/<span class="title">ul</span>&gt;</span></span><br><span class="line"><span class="class">      &lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="class">    &lt;/<span class="title">main</span>&gt;</span></span><br><span class="line"><span class="class">    &lt;!-- .<span class="title">site</span>-<span class="title">main</span> --&gt;</span></span><br><span class="line"><span class="class">  &lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="class">  &lt;<span class="title">script</span> <span class="title">type</span>=&quot;<span class="title">text</span>/<span class="title">javascript</span>&quot;&gt;</span></span><br><span class="line"><span class="class">    $(<span class="title">function</span>() </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> oldClass = <span class="string">&quot;&quot;</span>;</span><br><span class="line">      <span class="keyword">var</span> Obj = <span class="string">&quot;&quot;</span>;</span><br><span class="line">      $(<span class="string">&quot;.cbp_tmtimeline li&quot;</span>).<span class="title function_ invoke__">hover</span>(function() &#123;</span><br><span class="line">        Obj = $(this).<span class="title function_ invoke__">children</span>(<span class="string">&quot;.shuoshuo_author_img&quot;</span>);</span><br><span class="line">        Obj = Obj.<span class="title function_ invoke__">children</span>(<span class="string">&quot;img&quot;</span>);</span><br><span class="line">        oldClass = Obj.<span class="title function_ invoke__">attr</span>(<span class="string">&quot;class&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> newClass = oldClass + <span class="string">&quot; zhuan&quot;</span>;</span><br><span class="line">        Obj.<span class="title function_ invoke__">attr</span>(<span class="string">&quot;class&quot;</span>, newClass);</span><br><span class="line">      &#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        Obj.<span class="title function_ invoke__">attr</span>(<span class="string">&quot;class&quot;</span>, oldClass);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">  <span class="meta">&lt;?php</span> <span class="comment">//get_sidebar(); </span></span><br><span class="line">  <span class="meta">?&gt;</span></span><br><span class="line">  <span class="meta">&lt;?php</span> <span class="title function_ invoke__">get_footer</span>(); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>说说页面的头像</p>
+<p>默认是读取的网站根目录下的<code>image.jpg</code></p>
+<p>网页的图标，在主题-自定义里面更换</p>
+<p>登陆的小部件在<code>/wp-includes/widgets/class-wp-widget-meta.php</code>里面，去掉不想要的部分即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">添加以下到主题目录下的`functions.php`</span><br><span class="line"></span><br><span class="line">​```php</span><br><span class="line">require get_template_directory() . &#x27;/functions-diy.php&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>footer.php</code></p>
+<p>使用<code>echo</code>来自定义页脚</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Theme:Noto Simple<span class="tag">&lt;<span class="name">br</span>&gt;</span>&quot;;</span><br><span class="line">echo &quot;<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&#x27;http://beian.miit.gov.cn&#x27;</span> <span class="attr">title</span>=<span class="string">&#x27;&#x27;</span>&gt;</span>蜀ICP备18033672号-1<span class="tag">&lt;/<span class="name">a</span>&gt;</span>&quot;;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WP%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%85%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">WP的自定义清理</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&text=WordPress优化"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&is_video=false&description=WordPress优化"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WordPress优化&body=Check out this article: https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&title=WordPress优化"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&name=WordPress优化&description=&lt;p&gt;&lt;em&gt;WP默认总是会带很多版权相关的东西。但是咱普通用户看着又不爽。清理下吧顺便在加个说说面板&lt;/em&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/WordPress%E4%BC%98%E5%8C%96/&t=WordPress优化"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

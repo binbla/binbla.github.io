@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="纯随手笔记，没有章法没有顺序。几乎没有可读性。  学习笔记存储类别const：保证指针只想的内存区域不可修改 static：如果修饰块作用域、函数原型作用域、函数作用域则赋予变量静态存储期，不改变变量的作用域，变量成为静态变量。若修饰全局变量，则该变量的作用域缩小为当前文件（内部链接），可以想象成私有化。 自动变量：auto修饰，起强调作用。特点：自动存储期、块作用域、无链接，不会自动初始化 寄存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零碎的编程基础学习笔记">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="纯随手笔记，没有章法没有顺序。几乎没有可读性。  学习笔记存储类别const：保证指针只想的内存区域不可修改 static：如果修饰块作用域、函数原型作用域、函数作用域则赋予变量静态存储期，不改变变量的作用域，变量成为静态变量。若修饰全局变量，则该变量的作用域缩小为当前文件（内部链接），可以想象成私有化。 自动变量：auto修饰，起强调作用。特点：自动存储期、块作用域、无链接，不会自动初始化 寄存">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.binbla.com/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240402123543037.png">
+<meta property="og:image" content="https://blog.binbla.com/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240403120830278.png">
+<meta property="og:image" content="https://blog.binbla.com/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240403235434327.png">
+<meta property="og:image" content="https://blog.binbla.com/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240407120617442.png">
+<meta property="article:published_time" content="2025-03-10T14:55:11.000Z">
+<meta property="article:modified_time" content="2025-03-10T15:55:28.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.binbla.com/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240402123543037.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>零碎的编程基础学习笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/OD%E7%A4%BE%E6%8B%9B/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/%E6%88%90%E9%83%BD%E8%81%94%E9%80%9AISP%E8%BF%87%E6%BB%A4%E7%AB%AF%E5%8F%A3/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=零碎的编程基础学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=零碎的编程基础学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=零碎的编程基础学习笔记&body=Check out this article: https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=零碎的编程基础学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=零碎的编程基础学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">存储类别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc"><span class="toc-number">1.2.</span> <span class="toc-text">misc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">数据结构与算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-number">1.4.1.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">排序算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">进程管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.1.</span> <span class="toc-text">多进程管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">1.5.2.</span> <span class="toc-text">进程通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">管道</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.6.</span> <span class="toc-text">数据表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.6.1.</span> <span class="toc-text">负数的表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E6%A0%87%E5%87%86"><span class="toc-number">1.6.2.</span> <span class="toc-text">浮点数标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A9%E7%A0%81%E6%93%8D%E4%BD%9C"><span class="toc-number">1.6.3.</span> <span class="toc-text">掩码操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E4%BD%8D%E5%AD%97%E6%AE%B5"><span class="toc-number">1.6.4.</span> <span class="toc-text">结构体位字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E9%BD%90%E6%8C%87%E5%AE%9A"><span class="toc-number">1.6.5.</span> <span class="toc-text">对齐指定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCC%E6%89%A9%E5%B1%95"><span class="toc-number">1.7.</span> <span class="toc-text">GCC扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#attribute-%E6%9C%BA%E5%88%B6"><span class="toc-number">1.7.1.</span> <span class="toc-text">__attribute__机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%80%9A%E4%BF%A1"><span class="toc-number">1.8.</span> <span class="toc-text">信号通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86"><span class="toc-number">1.8.1.</span> <span class="toc-text">信号处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.9.</span> <span class="toc-text">文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.9.1.</span> <span class="toc-text">文件打开模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86IO%E4%B8%8E%E5%BA%95%E5%B1%82IO"><span class="toc-number">1.9.2.</span> <span class="toc-text">标准IO与底层IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%B5%81%E4%B8%8E%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.9.3.</span> <span class="toc-text">文件流与缓冲区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-number">1.10.</span> <span class="toc-text">预处理指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-number">1.10.1.</span> <span class="toc-text">常用预处理指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%B1%95%E5%BC%80%E8%A7%84%E5%88%99"><span class="toc-number">1.10.2.</span> <span class="toc-text">宏定义展开规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#assert%E5%BA%93"><span class="toc-number">1.11.</span> <span class="toc-text">assert库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stdarg-h"><span class="toc-number">1.12.</span> <span class="toc-text">stdarg.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="toc-number">1.13.</span> <span class="toc-text">多线程编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E7%AE%A1%E7%90%86"><span class="toc-number">1.13.1.</span> <span class="toc-text">线程创建与管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="toc-number">1.14.</span> <span class="toc-text">共享内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">1.15.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.16.</span> <span class="toc-text">守护进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.16.1.</span> <span class="toc-text">守护进程的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">1.17.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E4%B8%8ETCP-IP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.17.1.</span> <span class="toc-text">OSI七层模型与TCP&#x2F;IP四层模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">1.17.2.</span> <span class="toc-text">数据链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF"><span class="toc-number">1.17.3.</span> <span class="toc-text">无线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#else"><span class="toc-number">1.17.4.</span> <span class="toc-text">else</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        零碎的编程基础学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T14:55:11.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>纯随手笔记，没有章法没有顺序。几乎没有可读性。</p>
+<hr>
+<h1 id="学习笔记"><a href="#学习笔记" class="headerlink" title="学习笔记"></a>学习笔记</h1><h2 id="存储类别"><a href="#存储类别" class="headerlink" title="存储类别"></a>存储类别</h2><p>const：保证指针只想的内存区域不可修改</p>
+<p>static：如果修饰块作用域、函数原型作用域、函数作用域则赋予变量静态存储期，不改变变量的作用域，变量成为静态变量。若修饰全局变量，则该变量的作用域缩小为当前文件（内部链接），可以想象成私有化。</p>
+<p>自动变量：auto修饰，起强调作用。特点：自动存储期、块作用域、无链接，不会自动初始化</p>
+<p>寄存器变量：使用register建议计算机将变量放入寄存器。其修饰的变量不可获取地址</p>
+<p>静态变量：在程序运行期间一直在内存中存在，例如函数内变量用static修饰，下次调用函数时这个变量的值还是上次调用该函数时的值。具有静态存储期的变量会被自动初始化，这点不同于自动变量。</p>
+<p>外部链接：全局变量，若指出该变量是外部变量（来此外部），用extern声明。（例如在其他文件中定义的全局变量，在本文件中用extern再次声明，第一次声明叫定义式声明，第二次声明叫引用式声明。只有在定义式声明中才能初始化变量）。</p>
+<p>函数也有外部函数（默认）、静态函数、内联函数（c99）。</p>
+<p>静态函数使用static修饰，外部函数在同一程序其他文件中也可以extern修饰引用声明表明当前文件中所使用的函数定义在别处</p>
+<h2 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h2><p>fgets会保留换行，gets_s不保留换行，但需要实现错误处理函数，较为麻烦。总体而言fgets更好</p>
+<p>const修饰的内容是不可变的，比如const int a[]那就是a的数组内容不可变，int const a*那就是a的指向不能变</p>
+<p>ctype.h是C标准函数库中的头文件，定义了一批C语言字符分类函数，用于测试字符是否属于特定的字符类别，如字母字符、控制字符等等。既支持单字节字符，也支持宽字符。<a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-standard-library-ctype-h.html"></a></p>
+<p>宽字符是<strong>宽度始终为16 位的多语言字符代码</strong>。 字符常量的类型是 char ；对于宽字符，该类型是 wchar_t 。 由于宽字符始终具有固定大小，因此使用宽字符集可以简化使用国际字符集进行的编程。 宽字符串文本 L”hello” 将成为类型为 wchar_t 的六个整数的数组。</p>
+<ol>
+<li>作用域：块，函数作用域（goto），函数原型作用域，文件作用域</li>
+<li>链接：外部链接，内部链接，无链接<br>在文件中直接定义的全局变量是外部链接，其他文件也可以访问得到（一般称之为全局作用域），而如果是static定义的全局变量则是内部链接（一般称之为文件作用域）</li>
+<li>存储期：静态存储期，线程存储期，自动存储期，动态分配存储期<br>注意：全局变量的static关键字声明的是变量或函数的链接属性！而局部变量的static关键字则是声明静态存储期，作用域还是上层块，但是存放在静态内存区。<strong>全局变量默认都是静态的，都是存放在静态存储区中的</strong></li>
+<li>存储类别：自动（关键字auto显示声明，自动变量不会自动初始化！），寄存器（关键字register），静态块作用域（块作用域的静态变量，其实就是函数内部声明的静态变量，放在静态内存里面，不会随函数结束而消失），静态外部链接（外部链接的静态变量，也就是普通的全局变量，全局变量的初始化只能是常量表达式，不能带变量，这个很容易理解，如果需要强调引用外部定义的全局变量，可以用extern关键字），静态内部链接（内部链接的静态变量，也就是用static修饰的全局变量，静态存储期）</li>
+</ol>
+<p>函数的关键字： inline，static（限定作用域），extern</p>
+<p>一定要注意size_t类型的参与运算！这是一个无符号整型，不要拿来和有符号整型做运算！相关函数malloc,sizeof,strlen等等</p>
+<p>限定符：const，volatile（允许其他程序修改这个值，防止编译器优化），restrict（c99允许编译器优化。只能用于指针，该指针是访问这片地址的唯一且初始的方式），_Atomic（c11 ，跟stdatomic.h里面的函数一起用 比如 原子操作_Atomic int hogs; atomic_store(&amp;hogs,12)）</p>
+<p>二进制方式打开的文件可以看见\r\n^Z,而使用文本方式打开的文件可以看到\r，其他的都看不到了。</p>
+<p>c11特性：fopen的x模式，独占打开；任何w模式都会截断文件内容</p>
+<p>c99：stdbool.h 新增_Bool类型，占1bit的位字段</p>
+<p>对齐特性c11：_Alignof(float)查询float的对齐要求，_Alignas(8) 指定对齐要求</p>
+<p>在宏定义中用#号来做字符串化，##叫做预处理粘合剂</p>
+<p>c11泛型选择表达式_Generic(x,int:0,float:1,default:3)</p>
+<p>_Noreturn修饰函数，说明该函数不会将控制返回给上层函数</p>
+<p>assert.h中的assert()函数可以在运行时断言，_Static_assert(a&#x3D;&#x3D;b,”error msg”)是在编译时就完成断言</p>
+<h2 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h2><p>linux中unistd.h提供sleep()，time.h提供time()，stdlib.h提供srand()和rand。rand里面有使用静态变量，所以只需要一次下种，后续调用rand都不用下种。</p>
+<h2 id="数据结构与算法"><a href="#数据结构与算法" class="headerlink" title="数据结构与算法"></a>数据结构与算法</h2><h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树是一种自平衡的二叉查找树，具有良好的最坏情况运行时间，能够在对数时间内完成查找、插入和删除操作。红黑树的每个节点都有一个颜色属性（红色或黑色），通过颜色约束来保持树的平衡。</p>
+<h3 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h3><ul>
+<li><strong>锦标赛排序</strong>：通过构建锦标赛树（类似于堆）来选择最大或最小元素，适用于外部排序。</li>
+<li><strong>桶排序</strong>：将数据分到有限数量的桶中，每个桶再分别排序，适用于数据分布均匀的情况。</li>
+</ul>
+<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><h3 id="多进程管理"><a href="#多进程管理" class="headerlink" title="多进程管理"></a>多进程管理</h3><p>在C语言中，常用的多进程管理函数包括：</p>
+<ul>
+<li><code>fork()</code>：创建子进程。</li>
+<li><code>execve()</code>：在子进程中执行新的程序。</li>
+<li><code>wait()</code> 和 <code>waitpid()</code>：等待子进程结束。</li>
+<li><code>exit()</code> 和 <code>_exit()</code>：终止进程。</li>
+</ul>
+<p>当一个进程通过<code>fork()</code>创建子进程后，如果父进程正常退出，子进程会被<code>init</code>进程收养，从而避免僵尸进程的产生。</p>
+<h3 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h3><h4 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h4><ul>
+<li><strong>无名管道</strong>：用于父子进程之间的通信。</li>
+<li><strong>有名管道</strong>：通过<code>mkfifo</code>创建，可以像文件一样使用<code>read</code>和<code>write</code>进行读写。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">open(<span class="type">const</span> <span class="type">char</span> *path, O_RDONLY); <span class="comment">// 只读</span></span><br><span class="line">open(<span class="type">const</span> <span class="type">char</span> *path, O_RDONLY | O_NONBLOCK); <span class="comment">// 非阻塞只读</span></span><br><span class="line">open(<span class="type">const</span> <span class="type">char</span> *path, O_WRONLY); <span class="comment">// 只写</span></span><br><span class="line">open(<span class="type">const</span> <span class="type">char</span> *path, O_WRONLY | O_NONBLOCK); <span class="comment">// 非阻塞只写</span></span><br><span class="line"><span class="comment">//这些宏定义在fcntl.h</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据表示"><a href="#数据表示" class="headerlink" title="数据表示"></a>数据表示</h2><h3 id="负数的表示"><a href="#负数的表示" class="headerlink" title="负数的表示"></a>负数的表示</h3><p>负数在计算机中通常以补码形式表示，补码等于二进制反码加1。</p>
+<h3 id="浮点数标准"><a href="#浮点数标准" class="headerlink" title="浮点数标准"></a>浮点数标准</h3><ul>
+<li><strong>单精度浮点数</strong>：1位符号，8位指数，23位尾数，精度为7-8位。</li>
+<li><strong>双精度浮点数</strong>：1位符号，11位指数，52位尾数，精度为15位。</li>
+</ul>
+<p>中间的指数部分8位，需要映射，比如8位存储的数值是128,那就映射位128-127&#x3D;1；这样可以避免在中间的8位上直接存储负数</p>
+<h3 id="掩码操作"><a href="#掩码操作" class="headerlink" title="掩码操作"></a>掩码操作</h3><ul>
+<li><strong>设置位</strong>：使用或操作。</li>
+<li><strong>清空位</strong>：将掩码取反后与操作。</li>
+<li><strong>切换位</strong>：使用异或操作。</li>
+<li><strong>检查位</strong>：使用与操作。</li>
+</ul>
+<h3 id="结构体位字段"><a href="#结构体位字段" class="headerlink" title="结构体位字段"></a>结构体位字段</h3><p>结构体中的位字段允许对数据进行更精细化的操作。</p>
+<h3 id="对齐指定"><a href="#对齐指定" class="headerlink" title="对齐指定"></a>对齐指定</h3><p>使用<code>_Alignas</code>和<code>_Alignof</code>来指定对齐方式。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdalign.h&gt;</span></span></span><br><span class="line"><span class="type">char</span> <span class="keyword">_Alignas</span>(<span class="type">double</span>) cz;</span><br></pre></td></tr></table></figure>
+
+<h2 id="GCC扩展"><a href="#GCC扩展" class="headerlink" title="GCC扩展"></a>GCC扩展</h2><h3 id="attribute-机制"><a href="#attribute-机制" class="headerlink" title="__attribute__机制"></a><code>__attribute__</code>机制</h3><p>GCC的<code>__attribute__</code>可以修饰函数和变量，常用的修饰符包括：</p>
+<ul>
+<li><strong>函数修饰符</strong>：<code>noreturn</code>、<code>format</code>、<code>const</code>、<code>constructor</code>、<code>destructor</code>。</li>
+<li><strong>变量修饰符</strong>：<code>aligned</code>、<code>packed</code>。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__(())</span><br></pre></td></tr></table></figure>
+
+<h2 id="信号通信"><a href="#信号通信" class="headerlink" title="信号通信"></a>信号通信</h2><h3 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h3><ul>
+<li><strong>发送信号</strong>：使用<code>kill</code>和<code>raise</code>。<code>signal.h</code></li>
+<li><strong>接受信号</strong>：使用<code>alarm</code>和<code>pause</code>。<code>unistd.h</code></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> (*signal(<span class="type">int</span> sig, <span class="type">void</span> (*func)(<span class="type">int</span>)))(<span class="type">int</span>);</span><br><span class="line"><span class="comment">// 声明的函数是signal,signal函数有两个传参，一个int,一个函数指针。他的返回值是带一个int形参的返回值是void的函数，这个函数就是func会直接执行,如果中间执行有问题signal则会返回SIG_ERR用于验错</span></span><br></pre></td></tr></table></figure>
+
+<p>这个通信的使用方式就是：1. 定义信号处理函数 2. 注册信号处理函数<code>if(signal(SIGALRM,sighander)==SIG_ERR)pass()else&#123;pass()&#125; </code>3. 等待信号处理。信号列表可以翻man手册,alarm信号可以用来设置超时什么的功能。</p>
+<p>信号处理的使用步骤：</p>
+<ol>
+<li>定义信号处理函数。</li>
+<li>注册信号处理函数。</li>
+<li>等待信号处理。</li>
+</ol>
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><p>IO还可以选择级别：有底层IO和标准IO可选。在大多数情况下都是使用标准IO,因为不能保证所有操作系统都使用相同的底层IO</p>
+<h3 id="文件打开模式"><a href="#文件打开模式" class="headerlink" title="文件打开模式"></a>文件打开模式</h3><ul>
+<li><code>r+</code>：读写模式。</li>
+<li><code>w+</code>：截断读写模式（清空原有内容）。</li>
+<li><code>x</code>：要求文件存在且未被占用（C11特性）。</li>
+</ul>
+<p>如果要打开的文件是纯linux的文件，则二进制打开方式和文本打开方式没有区别</p>
+<h3 id="标准IO与底层IO"><a href="#标准IO与底层IO" class="headerlink" title="标准IO与底层IO"></a>标准IO与底层IO</h3><ul>
+<li><strong>标准IO</strong>：使用<code>fopen()</code>、<code>fclose()</code>、<code>fread()</code>、<code>fwrite()</code>等函数。</li>
+<li><strong>底层IO</strong>：使用<code>open()</code>、<code>read()</code>、<code>write()</code>等函数。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fopen()、getc()、putc()、exit()、fclose()</span><br><span class="line"></span><br><span class="line">fprintf()、fscanf()、fgets()、fputs()</span><br><span class="line"></span><br><span class="line">rewind()、fseek()、ftell()、fflush()</span><br><span class="line"></span><br><span class="line">fgetpos()、fsetpos()、feof()、ferror()</span><br><span class="line"></span><br><span class="line">ungetc()、setvbuf()、fread()、fwrite()</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件流与缓冲区"><a href="#文件流与缓冲区" class="headerlink" title="文件流与缓冲区"></a>文件流与缓冲区</h3><ul>
+<li><strong>文件流</strong>：C语言将文件视为流，可以使用<code>setvbuf()</code>为流指定缓冲区。</li>
+<li><strong>缓冲区修改</strong>：修改缓冲区内容后使用<code>fflush()</code>刷新缓冲区。</li>
+</ul>
+<p>getc()和putc()函数需要参数指定来源输入来源，而getchar()和putchar()是默认的标准输入stdin，getc()如果读取到EOF则说明到达文件尾部</p>
+<p>fopen()与fclose()要成对使用。fclose()也存在返回值，如果文件关闭成功则为0。在编程规范中需要将该返回值考虑进函数设计当中。</p>
+<p>rewind()函数的功能是移动指标到文件开头，fseek(fp,offset_l,SEEK_END)，ftell(fp)功能是返回当前指针所在位置（适用于以二进制方式打开的文件）。fflush()是刷新缓冲区</p>
+<p>dgetpos()和fsetpos()函数：不用long这个数量级不够大的数据类型，而使用了新类型fpos_t，使用并不复杂，可以直接看说明书</p>
+<p>ungetc()可以将字符放回输入缓冲区。典型的使用场景：要读取某个字符前的所有内容，而不破坏缓冲区的剩下内容，在读到指定字符后将指定字符放回。</p>
+<p>setvbuf()函数 指定或创建一个缓冲区</p>
+<p>fread()和fwrite()函数会使用二进制形式存储和读取数据。也就是数据序列化与反序列化。返回值是成功的数据块数量</p>
+<p>feof()和ferror()函数用于区分到达文件结尾的eof还是读取错误的eof</p>
+<p>C语言把东西看作流，一个文件可以是一个流，可以用setvbuf为这个流指定一个缓冲区，这个流可以用来当作输出流，也可以用来当作输出流。</p>
+<p>常用的流还有：标准输出流stdin，通常来源于键盘，标准输出流和错误输出流，通常是显示器。流与流的对接就像对接水管一样，可以把文件的流对接到stdin上完成读取文件功能，也可以将stdout流对接到文件流上完成文件写入功能。</p>
+<p>如果文件流用setvbuf指定缓冲区，然后修改缓冲区的内容，再fflush,文件的内容会被修改吗？不能！这是未定义行为</p>
+<p>fopen函数是C标准库里面的，而open函数是操作系统linux提供的，是低级操作。fopen返回的是文件流，有缓冲；而open返回的是文件描述符，无缓冲。一般来说，普通文件用fopen打开，而设备文件只能用open打开。</p>
+<h2 id="预处理指令"><a href="#预处理指令" class="headerlink" title="预处理指令"></a>预处理指令</h2><h3 id="常用预处理指令"><a href="#常用预处理指令" class="headerlink" title="常用预处理指令"></a>常用预处理指令</h3><p>预处理指令:#define、#include、#ifdef、#else、#endif、#ifndef、#if、#elif、#line、#error、#pragma<br>关键字:_Generic、_Noreturn、_Static_assert<br>函数&#x2F;宏:sqrt()、atan()、atan2()、exit()、atexit()、assert()、memcpy()、<br>memmove()、va_start()、va_arg()、va_copy()、va_end()</p>
+<p><code>##</code>号可作为黏合剂，例子：<code>#define XNAME(n) x##n</code> 意味者后面的<code>int XNAME(1) = 10;</code> 效果等于<code>int x1=10;</code></p>
+<p>…三个点表示可变参数，也可以用在宏定义里面</p>
+<h3 id="宏定义展开规则"><a href="#宏定义展开规则" class="headerlink" title="宏定义展开规则"></a>宏定义展开规则</h3><ol>
+<li>一般的展开规律像函数的参数一样：先展开参数，再分析函数，即由内向外展开</li>
+<li>当宏中有<code>#</code>运算符的时候，不展开参数</li>
+<li>当宏中有<code>##</code>运算符的时候，先展开函数，再分析参数</li>
+<li><code>##</code>运算符用于将参数连接到一起，预处理过程把出现在<code>##</code>运算符两侧的参数合并成一个符号，注意不是字符串</li>
+</ol>
+<p>当遇到宏嵌套时，如A（B（C（x）））从最外层的宏A开始找到最内层宏C（含有# ##的宏可以看成最内层，因为# ##会破坏更内层的宏），然后展开最内层宏C。<br>再然后循环上述过程，从最外层宏A……</p>
+<h2 id="assert库"><a href="#assert库" class="headerlink" title="assert库"></a>assert库</h2><p>assert()是在运行时检查，还有_Static_assert()函数则在编译时检查表达式</p>
+<h2 id="stdarg-h"><a href="#stdarg-h" class="headerlink" title="stdarg.h"></a>stdarg.h</h2><p>可变参数库，可变参数的三个小点必须是最后一个参数，且前面必有一个int型的形参，用以处理可变参数的数量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">test3</span><span class="params">(<span class="type">int</span> k, ...)</span> &#123;</span><br><span class="line">    va_list ap;</span><br><span class="line">    va_start(ap, k);</span><br><span class="line">    <span class="type">double</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">    x = va_arg(ap, <span class="type">double</span>);  <span class="comment">// 检索第一个double</span></span><br><span class="line">    y = va_arg(ap, <span class="type">int</span>);     <span class="comment">// 检索第一个int</span></span><br><span class="line">	va_end(ap);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="多线程编程"><a href="#多线程编程" class="headerlink" title="多线程编程"></a>多线程编程</h2><h3 id="线程创建与管理"><a href="#线程创建与管理" class="headerlink" title="线程创建与管理"></a>线程创建与管理</h3><p>linux c的线程库pthread.h：</p>
+<ul>
+<li><strong>创建线程</strong>：使用<code>pthread_create()</code>。</li>
+<li><strong>线程退出</strong>：使用<code>pthread_exit()</code>。</li>
+<li><strong>线程挂起</strong>：使用<code>pthread_join()</code>。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">thread_struct</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">char</span> message[<span class="number">20</span>];</span><br><span class="line">&#125; thread_struct;</span><br><span class="line"><span class="type">void</span> *<span class="title function_">test_thread</span><span class="params">(<span class="type">void</span> *arg)</span> &#123;  <span class="comment">// 子线程</span></span><br><span class="line">    <span class="comment">// 作为线程的函数通常形参通过结构体传入，返回值用void *来接收。</span></span><br><span class="line">    thread_struct *msg = (thread_struct *)arg;</span><br><span class="line">    <span class="built_in">printf</span>(</span><br><span class="line">        <span class="string">&quot;this is a thread, and it will be exit soon:%d, and get the &quot;</span></span><br><span class="line">        <span class="string">&quot;message:%s\n&quot;</span>,</span><br><span class="line">        msg-&gt;id, msg-&gt;message);</span><br><span class="line">    sleep(<span class="number">10</span>);</span><br><span class="line">    <span class="comment">// pthread_exit(NULL);  // 线程的主动行为</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">void</span> *)<span class="number">2</span>;  <span class="comment">// 这个返回值可以通过join接收</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">test6</span><span class="params">()</span> &#123;  <span class="comment">// 主线程</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="type">pthread_t</span> id = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> return_value = <span class="number">0</span>;</span><br><span class="line">    thread_struct goarg = &#123;<span class="number">9</span>, <span class="string">&quot;yes\0&quot;</span>&#125;;</span><br><span class="line">    <span class="keyword">if</span> (pthread_create(&amp;id, <span class="literal">NULL</span>, test_thread, &amp;goarg) != <span class="number">0</span>)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;creat thread failed.\n&quot;</span>);</span><br><span class="line">    <span class="comment">// 如果取消线程，返回值是-1</span></span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    pthread_cancel(id);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;thread_id:%lu, wait for thread to exit.\n&quot;</span>, id);</span><br><span class="line">    pthread_join(id, (<span class="type">void</span> **)&amp;return_value);</span><br><span class="line">    <span class="comment">// 第二个参数接收线程的返回值(该函数会阻塞)</span></span><br><span class="line">    <span class="comment">// 返回值的类型为二级指针，可以用强制转换的方式传递。</span></span><br><span class="line">    <span class="comment">// 如果设置create的参数可以设置线程的属性为非join的，这样线程结束之后会自动回收相关内存资源。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;thread has been exited:%d\n&quot;</span>, return_value);  <span class="comment">// 打印返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h2><p>同机子的多个进程之间通信的效率最高的方式。</p>
+<p>具体步骤是：创建共享内存，映射共享内存，撤销共享内存。</p>
+<p>创建：shmget，映射：shmat，取消映射：shmdt()，删除共享内存shmctl()去控制</p>
+<p>多个进程共有的信息是shmid，比如两个进程都是这个shmid那么就可以共享内存</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MY_SHM_ID 887878</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">test4</span><span class="params">()</span> &#123;</span><br><span class="line">    shmget(MY_SHM_ID, <span class="number">1024</span>, <span class="number">0600</span> | IPC_CREAT);  <span class="comment">// 申请</span></span><br><span class="line">    <span class="type">char</span> *buf;</span><br><span class="line">    buf = (<span class="type">char</span> *)shmat(MY_SHM_ID, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 然后向这个buf里面共享，另一个进程也按这个SHM_ID创建，则可以实现通信</span></span><br><span class="line">    shmdt(buf);</span><br><span class="line">    shmctl(MY_SHM_ID, IPC_RMID, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>存在内存拷贝 所以比共享内存要慢</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MSG_MAX_SIZE 1024</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">msg</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> msgtype;</span><br><span class="line">    <span class="type">char</span> msg[MSG_MAX_SIZE];</span><br><span class="line">&#125; Msg;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MY_MSG_KEY 10010</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">test5</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> msdid = msgget(MY_MSG_KEY, IPC_CREAT | <span class="number">0644</span>);  <span class="comment">// 创建消息队列</span></span><br><span class="line">    Msg msg = &#123;<span class="number">1</span>, <span class="string">&quot;offline&quot;</span>&#125;;</span><br><span class="line">    Msg *msgrevd = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Msg));</span><br><span class="line">    msgsnd(msdid, &amp;msg, <span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// msgrcv(msdid, msgrevd, MSG_MAX_SIZE, 0, IPC_NOWAIT);</span></span><br><span class="line">    msgctl(MY_MSG_KEY, IPC_RMID, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h2><h3 id="守护进程的实现"><a href="#守护进程的实现" class="headerlink" title="守护进程的实现"></a>守护进程的实现</h3><ol>
+<li>利用主进程推出，子进程被init接管的这个模式完成对终端的脱离。</li>
+<li>在子进程中使用setsid函数完成创建新会话。（因为子进程会继承父进程的会话，组，控制终端，也需要脱离开来），setsid的作用就是创建一个新会话并让该进程担任会话组的组长。</li>
+<li>要改变当前的工作目录，如果长期占用mount的目录则会导致无法umount</li>
+<li>还要设置文件掩码，umask</li>
+<li>打开的文件也是继承而来的，也需要退出。</li>
+</ol>
+<h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><h3 id="OSI七层模型与TCP-IP四层模型"><a href="#OSI七层模型与TCP-IP四层模型" class="headerlink" title="OSI七层模型与TCP&#x2F;IP四层模型"></a>OSI七层模型与TCP&#x2F;IP四层模型</h3><ul>
+<li><strong>应用层</strong>、<strong>表示层</strong>、<strong>会话层</strong> —— 对应TCP&#x2F;IP的<strong>应用层</strong>。</li>
+<li><strong>传输层</strong> —— 对应TCP&#x2F;IP的<strong>传输层</strong>。</li>
+<li><strong>网络层</strong> —— 对应TCP&#x2F;IP的<strong>网络层</strong>。</li>
+<li><strong>数据链路层</strong>、<strong>物理层</strong> —— 对应TCP&#x2F;IP的<strong>网卡层</strong>和<strong>硬件层</strong>。</li>
+</ul>
+<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><ul>
+<li><strong>以太网帧格式</strong>：802.3以太网：7个字节前导码，1个字节帧开始符（这8字节是物理层加的）6字节目标mac，6字节源mac，2字节以太网类型，500数据负载，4字节冗余校验FCS 共1518字节 12帧间距 以太网类型：0800 ipv4，86DD ipv6</li>
+<li><strong>CRC冗余校验</strong>：用于数据校验。CRC冗余校验码：约定一个除数，比如5位，那么就有4位的CRC余数。验证过程即mod&#x3D;0，纠错码的方式：重复把戏，匹配把戏，简单求和把戏，阶梯求和把戏，矩阵定位把戏，海明码（海明码的生成稍稍有些复杂，需要复习）</li>
+</ul>
+<h3 id="无线"><a href="#无线" class="headerlink" title="无线"></a>无线</h3><p>ieee 802.11 无线lan标准&#x2F;b&#x2F;a&#x2F;g&#x2F;n&#x2F;ac&#x2F;ax对应wifi1，2，3，4，5，6</p>
+<p>PPPoE帧占8字节，占用数据的1500字节当中，所以mtu调整到1492</p>
+<p><img src="/./%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240402123543037.png" alt="image-20240402123543037"></p>
+<h3 id="else"><a href="#else" class="headerlink" title="else"></a>else</h3><p>以太网以MAC作为设备标识，而IP层以IP作为设备唯一标识。</p>
+<p>在网络层，ICMP报文头8字节，IP报文头20字节，留给上层数据1492-28 &#x3D; 1464</p>
+<p>利用ping命令可以测试到目标路径的指定MTU是否过大，<code>ping binbla.com -f -l 1464</code><br><img src="/./%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240403120830278.png" alt="image-20240403120830278"></p>
+<p>在windows 中使用&#96;&#96;tracert binbla.com&#96; 命令来观察从当前到目标host的路由途径。而linux 中使用routetrace命令，发送的是UDP报文。</p>
+<p>在tracert路由追踪中，根据生存时间（TTL）来逐个确认中间路由。当TTL归零则不再路由转发直接返回结果或不返回结果（显示*号）。</p>
+<p>这个protocol字段有些奇怪，既然已经是IPV4的报文首部，为什么还要多此一举。4表示IP协议，6表示TCP协议，17表示UDP协议。</p>
+<p>值得记住的是IHL字段，在没有可选项的报文中，该字段的值通畅设置为5，单位4字节，表示IP首部共长20字节。</p>
+<p>标识，表示同一个数据包的分片</p>
+<p>flag：数据包是否可以分片，TTL生存时间，两个地址</p>
+<p><img src="/./%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240403235434327.png" alt="image-20240403235434327"></p>
+<p>IPv6的报文首部</p>
+<p>DNS与PTR</p>
+<p>ARP（ipv6中用ICMPv6替代功能） ，查询IP对应的MAC地址。ARP广播式发送到同网段所有设备，收到目标设备的响应。Proxy ARP路由器的功能：可以将ARP请求转发给临近的网段。</p>
+<p>RARP：不能通过dhcp分配IP地址的嵌入式设备，用这个协议向RARP服务器请求IP地址。</p>
+<p>ICMP：可以用来确认IP包是否到达目标地址，通知在发送过程中IP包被废弃的具体原因。做网络调试会经常用到，但不能过分依赖，毕竟部分设备可以不理会ICMP报文。</p>
+<p>ICMP是传送层（TCP&#x2F;UDP）内容，但行驶的是网络层（IP）的功能</p>
+<p>ICMP在v4上只是辅助功能，而ICMPv6却是主要功能，替代ARP的邻居探索消息，ICMP的重定向，ICMP路由器选择消息，自动设置IP地址</p>
+<p><img src="/./%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.assets/image-20240407120617442.png" alt="image-20240407120617442"></p>
+<p>也就是，从路由器拿取前缀，自己选一个地址，通过路由器告知他人。</p>
+<p>实际上大部运营商提供的光猫上网服务都是锥形NAT的，而3G、4G网络、公共WiFi等因为安全因素都是对称式NAT。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">存储类别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#misc"><span class="toc-number">1.2.</span> <span class="toc-text">misc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">数据结构与算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-number">1.4.1.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">排序算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">进程管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.1.</span> <span class="toc-text">多进程管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">1.5.2.</span> <span class="toc-text">进程通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">管道</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.6.</span> <span class="toc-text">数据表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.6.1.</span> <span class="toc-text">负数的表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E6%A0%87%E5%87%86"><span class="toc-number">1.6.2.</span> <span class="toc-text">浮点数标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A9%E7%A0%81%E6%93%8D%E4%BD%9C"><span class="toc-number">1.6.3.</span> <span class="toc-text">掩码操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E4%BD%8D%E5%AD%97%E6%AE%B5"><span class="toc-number">1.6.4.</span> <span class="toc-text">结构体位字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E9%BD%90%E6%8C%87%E5%AE%9A"><span class="toc-number">1.6.5.</span> <span class="toc-text">对齐指定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCC%E6%89%A9%E5%B1%95"><span class="toc-number">1.7.</span> <span class="toc-text">GCC扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#attribute-%E6%9C%BA%E5%88%B6"><span class="toc-number">1.7.1.</span> <span class="toc-text">__attribute__机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%80%9A%E4%BF%A1"><span class="toc-number">1.8.</span> <span class="toc-text">信号通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86"><span class="toc-number">1.8.1.</span> <span class="toc-text">信号处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.9.</span> <span class="toc-text">文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.9.1.</span> <span class="toc-text">文件打开模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86IO%E4%B8%8E%E5%BA%95%E5%B1%82IO"><span class="toc-number">1.9.2.</span> <span class="toc-text">标准IO与底层IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%B5%81%E4%B8%8E%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.9.3.</span> <span class="toc-text">文件流与缓冲区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-number">1.10.</span> <span class="toc-text">预处理指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-number">1.10.1.</span> <span class="toc-text">常用预处理指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89%E5%B1%95%E5%BC%80%E8%A7%84%E5%88%99"><span class="toc-number">1.10.2.</span> <span class="toc-text">宏定义展开规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#assert%E5%BA%93"><span class="toc-number">1.11.</span> <span class="toc-text">assert库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stdarg-h"><span class="toc-number">1.12.</span> <span class="toc-text">stdarg.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B"><span class="toc-number">1.13.</span> <span class="toc-text">多线程编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA%E4%B8%8E%E7%AE%A1%E7%90%86"><span class="toc-number">1.13.1.</span> <span class="toc-text">线程创建与管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="toc-number">1.14.</span> <span class="toc-text">共享内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">1.15.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.16.</span> <span class="toc-text">守护进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.16.1.</span> <span class="toc-text">守护进程的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">1.17.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E4%B8%8ETCP-IP%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.17.1.</span> <span class="toc-text">OSI七层模型与TCP&#x2F;IP四层模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">1.17.2.</span> <span class="toc-text">数据链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF"><span class="toc-number">1.17.3.</span> <span class="toc-text">无线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#else"><span class="toc-number">1.17.4.</span> <span class="toc-text">else</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=零碎的编程基础学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=零碎的编程基础学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=零碎的编程基础学习笔记&body=Check out this article: https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=零碎的编程基础学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=零碎的编程基础学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&t=零碎的编程基础学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

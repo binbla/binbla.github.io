@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在平板上使用 Zotero1. 方案概述在 Android 平板上使用 Zotero 的主要挑战在于其依赖桌面环境，而原生 Android 无法直接运行桌面级 Linux 应用。为了解决这个问题，我们采用 Termux 运行 ArchLinux，并通过 VNC 远程桌面访问 Zotero，从而实现完整的使用体验。 方案特点： 轻量级：利用 Termux 运行 ArchLinux，无需 root。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓平板安装zotero6">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="在平板上使用 Zotero1. 方案概述在 Android 平板上使用 Zotero 的主要挑战在于其依赖桌面环境，而原生 Android 无法直接运行桌面级 Linux 应用。为了解决这个问题，我们采用 Termux 运行 ArchLinux，并通过 VNC 远程桌面访问 Zotero，从而实现完整的使用体验。 方案特点： 轻量级：利用 Termux 运行 ArchLinux，无需 root。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-03-10T14:44:32.000Z">
+<meta property="article:modified_time" content="2025-03-10T14:47:32.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>安卓平板安装zotero6</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/%E6%88%90%E9%83%BD%E8%81%94%E9%80%9AISP%E8%BF%87%E6%BB%A4%E7%AB%AF%E5%8F%A3/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/%E7%A8%80%E7%A2%8E%E7%9A%84linux%E7%9B%B8%E5%85%B3%E5%B0%8F%E9%97%AE%E9%A2%98%E5%8F%8A%E5%85%B6%E5%A4%84%E7%90%86%E6%89%8B%E6%AE%B5/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&text=安卓平板安装zotero6"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&is_video=false&description=安卓平板安装zotero6"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安卓平板安装zotero6&body=Check out this article: https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&name=安卓平板安装zotero6&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&t=安卓平板安装zotero6"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%B9%B3%E6%9D%BF%E4%B8%8A%E4%BD%BF%E7%94%A8-Zotero"><span class="toc-number">1.</span> <span class="toc-text">在平板上使用 Zotero</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%B9%E6%A1%88%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1. 方案概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E7%89%B9%E7%82%B9%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">方案特点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Termux"><span class="toc-number">1.2.</span> <span class="toc-text">2. 安装 Termux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%E6%8F%90%E5%8D%87-Termux-%E6%98%93%E7%94%A8%E6%80%A7"><span class="toc-number">1.2.1.</span> <span class="toc-text">（可选）提升 Termux 易用性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85-ArchLinux"><span class="toc-number">1.3.</span> <span class="toc-text">3. 安装 ArchLinux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-ArchLinux-%E8%BD%AF%E4%BB%B6%E6%BA%90"><span class="toc-number">1.3.1.</span> <span class="toc-text">配置 ArchLinux 软件源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85-Zotero"><span class="toc-number">1.4.</span> <span class="toc-text">4. 安装 Zotero</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-X11-%E5%8F%8A-VNC-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.5.</span> <span class="toc-text">5. 配置 X11 及 VNC 服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%8F%8A%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">1.6.</span> <span class="toc-text">6. 配置本地化及输入法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E8%BF%90%E8%A1%8C-Zotero"><span class="toc-number">1.7.</span> <span class="toc-text">7. 运行 Zotero</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%80%BB%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">8. 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E6%94%B9%E8%BF%9B%E7%82%B9"><span class="toc-number">1.8.1.</span> <span class="toc-text">可能的改进点</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        安卓平板安装zotero6
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T14:44:32.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="在平板上使用-Zotero"><a href="#在平板上使用-Zotero" class="headerlink" title="在平板上使用 Zotero"></a>在平板上使用 Zotero</h1><h2 id="1-方案概述"><a href="#1-方案概述" class="headerlink" title="1. 方案概述"></a>1. 方案概述</h2><p>在 Android 平板上使用 Zotero 的主要挑战在于其依赖桌面环境，而原生 Android 无法直接运行桌面级 Linux 应用。为了解决这个问题，我们采用 Termux 运行 ArchLinux，并通过 VNC 远程桌面访问 Zotero，从而实现完整的使用体验。</p>
+<h3 id="方案特点："><a href="#方案特点：" class="headerlink" title="方案特点："></a>方案特点：</h3><ul>
+<li><strong>轻量级</strong>：利用 Termux 运行 ArchLinux，无需 root。</li>
+<li><strong>GUI 支持</strong>：通过 TigerVNC 远程访问桌面环境。</li>
+<li><strong>完整 Zotero 体验</strong>：支持插件和同步功能。</li>
+</ul>
+<h2 id="2-安装-Termux"><a href="#2-安装-Termux" class="headerlink" title="2. 安装 Termux"></a>2. 安装 Termux</h2><p>首先，通过 F-Droid 安装 Termux 并打开。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改密码</span></span><br><span class="line">passwd</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看用户名</span></span><br><span class="line">whoami</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看局域网 IP 地址</span></span><br><span class="line">ifconfig</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动 SSH 服务器，便于远程操作</span></span><br><span class="line">sshd</span><br></pre></td></tr></table></figure>
+
+<p>在电脑上通过 SSH 连接平板（端口 8022）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@APaddress -p 8022</span><br></pre></td></tr></table></figure>
+
+<p>更新软件源并安装必要工具：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">termux-change-repo  # 选择 single，推荐 bfsu 源</span><br><span class="line">pkg update &amp; pkg upgrade</span><br><span class="line">pkg install x11-repo zsh vim stow git wget proot proot-distro neofetch</span><br></pre></td></tr></table></figure>
+
+<h3 id="（可选）提升-Termux-易用性"><a href="#（可选）提升-Termux-易用性" class="headerlink" title="（可选）提升 Termux 易用性"></a>（可选）提升 Termux 易用性</h3><p>安装 <code>oh-my-zsh</code> 并启用插件，提高命令行体验。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(wget -O- https://install.ohmyz.sh/)&quot;</span><br><span class="line">git clone https://github.com/zsh-users/zsh-autosuggestions $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-autosuggestions</span><br><span class="line">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting</span><br><span class="line">git clone https://github.com/zsh-users/zsh-history-substring-search.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-history-substring-search</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用已有的 zsh 配置</span></span><br><span class="line">cd ~</span><br><span class="line">git clone https://github.com/binbla/dotfiles</span><br><span class="line">cd dotfiles</span><br><span class="line">pkg install stow</span><br><span class="line">stow zsh</span><br><span class="line">sed -i &quot;s#export ZSH=\&quot;/usr/share/oh-my-zsh\&quot;#export ZSH=\&quot;$&#123;HOME&#125;/.oh-my-zsh\&quot;#&quot; ~/dotfiles/zsh/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-安装-ArchLinux"><a href="#3-安装-ArchLinux" class="headerlink" title="3. 安装 ArchLinux"></a>3. 安装 ArchLinux</h2><p>使用 <code>proot-distro</code> 安装 ArchLinux，并进入环境：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proot-distro install archlinux</span><br><span class="line">proot-distro login archlinux</span><br></pre></td></tr></table></figure>
+
+<p>配置用户密码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">passwd  # 修改 root 密码</span><br><span class="line">passwd alarm  # 修改普通用户 alarm 的密码</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-ArchLinux-软件源"><a href="#配置-ArchLinux-软件源" class="headerlink" title="配置 ArchLinux 软件源"></a>配置 ArchLinux 软件源</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># /etc/pacman.conf</span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.bfsu.edu.cn/archlinuxcn/$arch</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># /etc/pacman.d/mirrorlist</span><br><span class="line">Server = https://mirrors.bfsu.edu.cn/archlinuxarm/$arch/$repo</span><br></pre></td></tr></table></figure>
+
+<p>更新密钥并安装基本软件包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman-key --lsign-key &quot;farseerfc@archlinux.org&quot;</span><br><span class="line">pacman -Syu archlinuxcn-keyring archlinux-keyring sudo vim zsh tigervnc i3 pulseaudio</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-安装-Zotero"><a href="#4-安装-Zotero" class="headerlink" title="4. 安装 Zotero"></a>4. 安装 Zotero</h2><p>Zotero 在 ARM 平台上可直接安装旧版。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S zotero  # ARM 官方源中的 Zotero 6</span><br></pre></td></tr></table></figure>
+
+<p>如需新版本，可以尝试 AUR 编译，但较为复杂。(存在许多编译困难，建议直接放弃，官方也不说支持arm平台)</p>
+<p>配置用户权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">usermod -G wheel alarm</span><br><span class="line">visudo  # 给 alarm 用户添加 sudo 权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-配置-X11-及-VNC-服务器"><a href="#5-配置-X11-及-VNC-服务器" class="headerlink" title="5. 配置 X11 及 VNC 服务器"></a>5. 配置 X11 及 VNC 服务器</h2><p>安装必要的 X11 组件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S xorg-xinit xorg-server xorg-xsetroot xorg-xrdb</span><br></pre></td></tr></table></figure>
+
+<p>配置 VNC 服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># ~/.config/tigervnc/config</span><br><span class="line">session=awesome</span><br><span class="line">geometry=1920x1080  # 根据平板分辨率调整</span><br><span class="line">depth=24</span><br><span class="line">localhost</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-配置本地化及输入法"><a href="#6-配置本地化及输入法" class="headerlink" title="6. 配置本地化及输入法"></a>6. 配置本地化及输入法</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">sed -i &#x27;s/#zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/&#x27; /etc/locale.gen</span><br><span class="line">locale-gen</span><br><span class="line">echo &quot;LANG=en_US.UTF-8&quot; &gt; /etc/locale.conf</span><br></pre></td></tr></table></figure>
+
+<p>安装输入法支持（Fcitx 5）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx5-config-qt fcitx-chewing fcitx5-qt fcitx5-gtk fcitx5-chinese-addons</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># /etc/environment</span><br><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br><span class="line">GLFW_IM_MODULE=ibus</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-运行-Zotero"><a href="#7-运行-Zotero" class="headerlink" title="7. 运行 Zotero"></a>7. 运行 Zotero</h2><ol>
+<li>启动 VNC 服务器：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vncserver :1 -geometry 1920x1080 -depth 24</span><br></pre></td></tr></table></figure></li>
+<li>在 VNC 客户端连接 <code>localhost:1</code>，进入 ArchLinux 桌面。</li>
+<li>在终端中启动 Zotero：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zotero &amp;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8. 总结"></a>8. 总结</h2><p>这样，我们就在平板上成功运行了 Zotero，并支持 GUI 操作。整个过程主要是利用 Termux 运行 ArchLinux，配置 VNC 以提供图形界面，并安装 Zotero 进行使用。</p>
+<h3 id="可能的改进点"><a href="#可能的改进点" class="headerlink" title="可能的改进点"></a>可能的改进点</h3><ul>
+<li>若设备性能较好，可以尝试编译更新版 Zotero。</li>
+<li>可更换其他更轻量的窗口管理器，以提升性能。</li>
+</ul>
+<p>至此，你的平板已经变成一个可以运行 Zotero 的高效工具。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8%E5%B9%B3%E6%9D%BF%E4%B8%8A%E4%BD%BF%E7%94%A8-Zotero"><span class="toc-number">1.</span> <span class="toc-text">在平板上使用 Zotero</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%B9%E6%A1%88%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1. 方案概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E7%89%B9%E7%82%B9%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">方案特点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85-Termux"><span class="toc-number">1.2.</span> <span class="toc-text">2. 安装 Termux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%E6%8F%90%E5%8D%87-Termux-%E6%98%93%E7%94%A8%E6%80%A7"><span class="toc-number">1.2.1.</span> <span class="toc-text">（可选）提升 Termux 易用性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85-ArchLinux"><span class="toc-number">1.3.</span> <span class="toc-text">3. 安装 ArchLinux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-ArchLinux-%E8%BD%AF%E4%BB%B6%E6%BA%90"><span class="toc-number">1.3.1.</span> <span class="toc-text">配置 ArchLinux 软件源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85-Zotero"><span class="toc-number">1.4.</span> <span class="toc-text">4. 安装 Zotero</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-X11-%E5%8F%8A-VNC-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.5.</span> <span class="toc-text">5. 配置 X11 及 VNC 服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%8C%96%E5%8F%8A%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">1.6.</span> <span class="toc-text">6. 配置本地化及输入法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E8%BF%90%E8%A1%8C-Zotero"><span class="toc-number">1.7.</span> <span class="toc-text">7. 运行 Zotero</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%80%BB%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">8. 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E6%94%B9%E8%BF%9B%E7%82%B9"><span class="toc-number">1.8.1.</span> <span class="toc-text">可能的改进点</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&text=安卓平板安装zotero6"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&is_video=false&description=安卓平板安装zotero6"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安卓平板安装zotero6&body=Check out this article: https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&title=安卓平板安装zotero6"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&name=安卓平板安装zotero6&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E5%AE%89%E5%8D%93%E5%B9%B3%E6%9D%BF%E5%AE%89%E8%A3%85zotero6/&t=安卓平板安装zotero6"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

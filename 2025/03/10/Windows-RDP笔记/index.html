@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="解决 Windows 远程桌面 (RDP) 证书问题Windows 10&#x2F;11 系统的远程桌面默认使用自签名的 SSL 证书进行连接，这会导致客户端在连接时提示“证书来自不信任的证书验证机构”。这是因为自签名证书无法被客户端信任，无法验证服务器的身份。   1. 获取证书可以通过阿里云申请免费证书，下载时选择 Tomcat 服务器类型，直接获得 pfx 格式的证书。 如果通过 Let’s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows RDP笔记">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="解决 Windows 远程桌面 (RDP) 证书问题Windows 10&#x2F;11 系统的远程桌面默认使用自签名的 SSL 证书进行连接，这会导致客户端在连接时提示“证书来自不信任的证书验证机构”。这是因为自签名证书无法被客户端信任，无法验证服务器的身份。   1. 获取证书可以通过阿里云申请免费证书，下载时选择 Tomcat 服务器类型，直接获得 pfx 格式的证书。 如果通过 Let’s">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/045891023298845.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/run.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930203909755.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930204204227.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930204414351.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930204910404.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930205922703.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930210952254.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930211230416.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930212146189.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930212647973.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930212908660.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/thumbprint-property.png">
+<meta property="og:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/successful-example-to-run-wmic-commands.png">
+<meta property="article:published_time" content="2025-03-10T14:00:38.000Z">
+<meta property="article:modified_time" content="2025-03-10T14:22:42.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.binbla.com/RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/045891023298845.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Windows RDP笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/%E8%A7%A3%E5%86%B3%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%E6%8C%82%E8%BD%BD%E9%9D%9E%E7%B3%BB%E7%BB%9F%E5%88%86%E5%8C%BA%E6%97%B6%E9%9C%80%E8%A6%81%E5%AF%86%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/11/01/how-to-set-up-a-ikev2-server/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&text=Windows RDP笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&is_video=false&description=Windows RDP笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows RDP笔记&body=Check out this article: https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&name=Windows RDP笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&t=Windows RDP笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3-Windows-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2-RDP-%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">解决 Windows 远程桌面 (RDP) 证书问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%8E%B7%E5%8F%96%E8%AF%81%E4%B9%A6"><span class="toc-number">2.</span> <span class="toc-text">1. 获取证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6"><span class="toc-number">3.</span> <span class="toc-text">2. 导入证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%88%86%E9%85%8D%E6%9D%83%E9%99%90"><span class="toc-number">4.</span> <span class="toc-text">3. 分配权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9B%B4%E6%96%B0%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">4. 更新远程桌面证书配置</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Windows RDP笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T14:00:38.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="解决-Windows-远程桌面-RDP-证书问题"><a href="#解决-Windows-远程桌面-RDP-证书问题" class="headerlink" title="解决 Windows 远程桌面 (RDP) 证书问题"></a>解决 Windows 远程桌面 (RDP) 证书问题</h3><p>Windows 10&#x2F;11 系统的远程桌面默认使用自签名的 SSL 证书进行连接，这会导致客户端在连接时提示“证书来自不信任的证书验证机构”。这是因为自签名证书无法被客户端信任，无法验证服务器的身份。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/045891023298845.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-4de0940f1e0700cfb3b50b77d84ed1f1"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/045891023298845.png" alt="证书来自不信任的证书验证机构提示"></a></p>
+<hr>
+<h3 id="1-获取证书"><a href="#1-获取证书" class="headerlink" title="1. 获取证书"></a>1. 获取证书</h3><p>可以通过阿里云申请免费证书，下载时选择 <strong>Tomcat</strong> 服务器类型，直接获得 <strong>pfx</strong> 格式的证书。</p>
+<p>如果通过 Let’s Encrypt 等方式获取到 <strong>pem</strong> 和 <strong>key</strong> 文件，可以使用 OpenSSL 将其转换为 <strong>pfx</strong> 格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -<span class="built_in">export</span> -clcerts -<span class="keyword">in</span> [your_domain_crt.pem] -inkey [your_domain_key.key] -out [your_domain.p12]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-导入证书"><a href="#2-导入证书" class="headerlink" title="2. 导入证书"></a>2. 导入证书</h3><ol>
+<li><p>按下 <code>Win</code> + <code>R</code>，输入 <code>mmc</code>，打开“管理控制台”。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/run.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-64cffb77c12c277a37d9fc96bb20525a"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/run.png" alt="运行"></a></p>
+</li>
+<li><p>在 <strong>文件</strong> 菜单中选择 <strong>添加&#x2F;删除管理单元</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930203909755.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-bfa710e09dbe31c99abd5bd234e54151"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930203909755.png" alt="管理控制台"></a></p>
+</li>
+<li><p>在左侧选择 <strong>证书</strong>，点击 <strong>添加</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930204204227.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-74d66c42438d7f406e5a8f47b260917a"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930204204227.png" alt="添加或删除单元"></a></p>
+</li>
+<li><p>在弹出的对话框中选择 <strong>计算机账户</strong>，点击 <strong>下一步</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930204414351.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-7fc88de30c131a9e5aca595052ba750d"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930204414351.png" alt="证书管理单元"></a></p>
+</li>
+<li><p>选择 <strong>本地计算机</strong>（保持默认），点击 <strong>完成</strong>，然后点击 <strong>确定</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930204910404.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-31a699d2731a1e5e5ee4c6a50cde6fe0"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930204910404.png" alt="选择计算机"></a></p>
+</li>
+<li><p>在 <strong>证书-个人</strong> 上右键，选择 <strong>所有任务-导入</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930205922703.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-1937fb9728eff4357a45daac82c26ced"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930205922703.png" alt="右键"></a></p>
+</li>
+<li><p>按照向导点击 <strong>下一步</strong>，选择 <strong>p12</strong> 格式的证书文件，输入密码，选择 <strong>根据证书类型，自动选择证书存储</strong>，点击 <strong>下一步</strong> 完成导入。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930210952254.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-9ca5cf2bd7301fd482825f7324ce97d2"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930210952254.png" alt="选择证书文件"></a></p>
+</li>
+<li><p>导入完成后，证书将显示在列表中。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930211230416.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-f849e1580a2c4e36ffa20874ef0fdc43"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930211230416.png" alt="导入完成"></a></p>
+</li>
+</ol>
+<hr>
+<h3 id="3-分配权限"><a href="#3-分配权限" class="headerlink" title="3. 分配权限"></a>3. 分配权限</h3><ol>
+<li><p>在已导入的证书上右键，选择 <strong>所有任务-管理私钥</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930212146189.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-af2ae8b1f069df78ed270a3145014374"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930212146189.png" alt="右键"></a></p>
+</li>
+<li><p>添加 <strong>NETWORK SERVICE</strong> 用户，并为其分配 <strong>读取</strong> 权限。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930212647973.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-acc40b013a1d55d3ae0f0cc460fc6a57"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930212647973.png" alt="添加用户"></a></p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/20150930212908660.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-909f64d7b84ff016ae6f08d244831092"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/20150930212908660.png" alt="分配权限"></a></p>
+</li>
+</ol>
+<hr>
+<h3 id="4-更新远程桌面证书配置"><a href="#4-更新远程桌面证书配置" class="headerlink" title="4. 更新远程桌面证书配置"></a>4. 更新远程桌面证书配置</h3><ol>
+<li><p>双击证书管理右侧的证书，查看证书详细信息，获取 <strong>指纹</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/thumbprint-property.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-919c32c82bc156bd1e2c1d9aa8a4a231"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/thumbprint-property.png" alt="An example of the certificate thumbprint in the Certificate properties."></a></p>
+</li>
+<li><p>以管理员身份在 PowerShell 中运行以下命令，将证书指纹更新到远程桌面配置中：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmic /namespace:\\root\cimv2\TerminalServices PATH Win32_TSGeneralSetting <span class="built_in">Set</span> SSLCertificateSHA1Hash=<span class="string">&quot;&lt;上面获取的证书指纹&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果更新成功，远程桌面连接时将不再提示证书错误。</p>
+<p><a target="_blank" rel="noopener" href="https://photo.nwdan.com/img/tutorials/winRDPCertConfig/successful-example-to-run-wmic-commands.png?auth_key=1717113600-wmmiHAg6KL3rJiFQgDG2-0-9469699c45c490daefea1d790d6f0a55"><img src="/./RDP%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98.assets/successful-example-to-run-wmic-commands.png" alt="A successful example of running the wmic command together with the thumbprint value that you obtain in step 3."></a></p>
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3-Windows-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2-RDP-%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">解决 Windows 远程桌面 (RDP) 证书问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%8E%B7%E5%8F%96%E8%AF%81%E4%B9%A6"><span class="toc-number">2.</span> <span class="toc-text">1. 获取证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AF%BC%E5%85%A5%E8%AF%81%E4%B9%A6"><span class="toc-number">3.</span> <span class="toc-text">2. 导入证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%88%86%E9%85%8D%E6%9D%83%E9%99%90"><span class="toc-number">4.</span> <span class="toc-text">3. 分配权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9B%B4%E6%96%B0%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">4. 更新远程桌面证书配置</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&text=Windows RDP笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&is_video=false&description=Windows RDP笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows RDP笔记&body=Check out this article: https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&title=Windows RDP笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&name=Windows RDP笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/&t=Windows RDP笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

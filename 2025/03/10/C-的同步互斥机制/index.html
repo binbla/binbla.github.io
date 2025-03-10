@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="以下是 C++ 中常见的互斥同步工具和机制的总结，包括它们的头文件、初始化、常用操作和销毁方法。 1. 互斥量（Mutex） 头文件: &lt;mutex&gt; 初始化: std::mutex mtx;  &#x2F;&#x2F; 默认构造函数初始化为未锁定状态   操作: std::lock_guard&lt;std::mutex&gt; guard(mtx);  &#x2F;&#x2F; 自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++的同步互斥机制">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="以下是 C++ 中常见的互斥同步工具和机制的总结，包括它们的头文件、初始化、常用操作和销毁方法。 1. 互斥量（Mutex） 头文件: &lt;mutex&gt; 初始化: std::mutex mtx;  &#x2F;&#x2F; 默认构造函数初始化为未锁定状态   操作: std::lock_guard&lt;std::mutex&gt; guard(mtx);  &#x2F;&#x2F; 自">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-03-10T15:56:30.000Z">
+<meta property="article:modified_time" content="2025-03-10T15:56:38.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++的同步互斥机制</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/C-%E6%B5%81/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&text=C++的同步互斥机制"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&is_video=false&description=C++的同步互斥机制"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++的同步互斥机制&body=Check out this article: https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&name=C++的同步互斥机制&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&t=C++的同步互斥机制"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BA%92%E6%96%A5%E9%87%8F%EF%BC%88Mutex%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">1. 互斥量（Mutex）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AF%BB%E5%86%99%E9%94%81%EF%BC%88Shared-Mutex%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">2. 读写锁（Shared Mutex）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%EF%BC%88Condition-Variable%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">3. 条件变量（Condition Variable）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%EF%BC%88Atomic-Operations%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">4. 原子操作（Atomic Operations）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BA%8C%E5%85%83%E4%BF%A1%E5%8F%B7%E9%87%8F%EF%BC%88Binary-Semaphore%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">5. 二元信号量（Binary Semaphore）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BF%A1%E5%8F%B7%E9%87%8F%EF%BC%88Counting-Semaphore%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">6. 信号量（Counting Semaphore）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%B1%8F%E9%9A%9C%EF%BC%88Barrier%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">7. 屏障（Barrier）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E4%B8%B4%E7%95%8C%E5%8C%BA%EF%BC%88Critical-Section%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">8. 临界区（Critical Section）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E4%BA%92%E6%96%A5%E9%87%8F%E7%9A%84%E6%A0%87%E5%87%86%E7%B1%BB%EF%BC%88%E4%BE%8B%E5%A6%82-std-lock-guard-%E5%92%8C-std-unique-lock%EF%BC%89"><span class="toc-number">9.</span> <span class="toc-text">9. 互斥量的标准类（例如 std::lock_guard 和 std::unique_lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        C++的同步互斥机制
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T15:56:30.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>以下是 C++ 中常见的互斥同步工具和机制的总结，包括它们的头文件、初始化、常用操作和销毁方法。</p>
+<h3 id="1-互斥量（Mutex）"><a href="#1-互斥量（Mutex）" class="headerlink" title="1. 互斥量（Mutex）"></a>1. <strong>互斥量（Mutex）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;mutex&gt;</code></li>
+<li><strong>初始化</strong>:<ul>
+<li><code>std::mutex mtx;</code>  &#x2F;&#x2F; 默认构造函数初始化为未锁定状态</li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>std::lock_guard&lt;std::mutex&gt; guard(mtx);</code>  &#x2F;&#x2F; 自动加锁并在作用域结束时自动解锁</li>
+<li><code>std::unique_lock&lt;std::mutex&gt; lock(mtx);</code>  &#x2F;&#x2F; 手动控制锁的加锁和解锁</li>
+<li><code>mtx.lock();</code>  &#x2F;&#x2F; 手动加锁</li>
+<li><code>mtx.unlock();</code>  &#x2F;&#x2F; 手动解锁</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::mutex</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="2-读写锁（Shared-Mutex）"><a href="#2-读写锁（Shared-Mutex）" class="headerlink" title="2. 读写锁（Shared Mutex）"></a>2. <strong>读写锁（Shared Mutex）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;shared_mutex&gt;</code></li>
+<li><strong>初始化</strong>:<ul>
+<li><code>std::shared_mutex smtx;</code>  &#x2F;&#x2F; 默认构造函数</li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>std::unique_lock&lt;std::shared_mutex&gt; lock(smtx);</code>  &#x2F;&#x2F; 获取独占锁</li>
+<li><code>std::shared_lock&lt;std::shared_mutex&gt; lock(smtx);</code>  &#x2F;&#x2F; 获取共享锁</li>
+<li><code>smtx.lock();</code>  &#x2F;&#x2F; 获取独占锁</li>
+<li><code>smtx.unlock();</code>  &#x2F;&#x2F; 解锁</li>
+<li><code>smtx.lock_shared();</code>  &#x2F;&#x2F; 获取共享锁</li>
+<li><code>smtx.unlock_shared();</code>  &#x2F;&#x2F; 解锁共享锁</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::shared_mutex</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="3-条件变量（Condition-Variable）"><a href="#3-条件变量（Condition-Variable）" class="headerlink" title="3. 条件变量（Condition Variable）"></a>3. <strong>条件变量（Condition Variable）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;condition_variable&gt;</code></li>
+<li><strong>初始化</strong>:<ul>
+<li><code>std::condition_variable cv;</code></li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>std::unique_lock&lt;std::mutex&gt; lock(mtx);</code></li>
+<li><code>cv.wait(lock);</code>  &#x2F;&#x2F; 等待条件满足，释放锁</li>
+<li><code>cv.wait_for(lock, duration);</code>  &#x2F;&#x2F; 等待条件或超时</li>
+<li><code>cv.wait_until(lock, time_point);</code>  &#x2F;&#x2F; 等待直到指定时间点</li>
+<li><code>cv.notify_one();</code>  &#x2F;&#x2F; 唤醒一个等待的线程</li>
+<li><code>cv.notify_all();</code>  &#x2F;&#x2F; 唤醒所有等待的线程</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::condition_variable</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="4-原子操作（Atomic-Operations）"><a href="#4-原子操作（Atomic-Operations）" class="headerlink" title="4. 原子操作（Atomic Operations）"></a>4. <strong>原子操作（Atomic Operations）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;atomic&gt;</code></li>
+<li><strong>初始化</strong>:<ul>
+<li><code>std::atomic&lt;int&gt; counter(0);</code>  &#x2F;&#x2F; 初始化为 0</li>
+<li><code>std::atomic&lt;bool&gt; flag(true);</code>  &#x2F;&#x2F; 初始化为 true</li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>counter.load();</code>  &#x2F;&#x2F; 获取原子值</li>
+<li><code>counter.store(value);</code>  &#x2F;&#x2F; 设置原子值</li>
+<li><code>counter.fetch_add(1);</code>  &#x2F;&#x2F; 原子加法</li>
+<li><code>counter.fetch_sub(1);</code>  &#x2F;&#x2F; 原子减法</li>
+<li><code>counter.compare_exchange_weak(expected, desired);</code>  &#x2F;&#x2F; 比较并交换（CAS）</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::atomic</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="5-二元信号量（Binary-Semaphore）"><a href="#5-二元信号量（Binary-Semaphore）" class="headerlink" title="5. 二元信号量（Binary Semaphore）"></a>5. <strong>二元信号量（Binary Semaphore）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;semaphore&gt;</code> (C++20)</li>
+<li><strong>初始化</strong>:<ul>
+<li><code>std::binary_semaphore sem(0);</code>  &#x2F;&#x2F; 初始化为 0（表示锁定）</li>
+<li><code>std::binary_semaphore sem(1);</code>  &#x2F;&#x2F; 初始化为 1（表示解锁）</li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>sem.acquire();</code>  &#x2F;&#x2F; 获取信号量，如果值为 0，则阻塞</li>
+<li><code>sem.release();</code>  &#x2F;&#x2F; 释放信号量，将值设为 1，唤醒阻塞线程</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::binary_semaphore</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="6-信号量（Counting-Semaphore）"><a href="#6-信号量（Counting-Semaphore）" class="headerlink" title="6. 信号量（Counting Semaphore）"></a>6. <strong>信号量（Counting Semaphore）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;semaphore&gt;</code> (C++20)</li>
+<li><strong>初始化</strong>: <ul>
+<li><code>std::counting_semaphore&lt;3&gt; sem(3);</code>  &#x2F;&#x2F; 初始化为 3（表示最多允许 3 个线程）</li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>sem.acquire();</code>  &#x2F;&#x2F; 获取信号量，减少计数</li>
+<li><code>sem.release();</code>  &#x2F;&#x2F; 释放信号量，增加计数</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::counting_semaphore</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="7-屏障（Barrier）"><a href="#7-屏障（Barrier）" class="headerlink" title="7. 屏障（Barrier）"></a>7. <strong>屏障（Barrier）</strong></h3><ul>
+<li><strong>头文件</strong>: <code>&lt;barrier&gt;</code> (C++20)</li>
+<li><strong>初始化</strong>:<ul>
+<li><code>std::barrier barrier(3);</code>  &#x2F;&#x2F; 初始化，表示 3 个线程同步</li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>barrier.arrive_and_wait();</code>  &#x2F;&#x2F; 线程到达屏障并等待，直到所有线程都到达</li>
+</ul>
+</li>
+<li><strong>销毁</strong>: 无需显式销毁，<code>std::barrier</code> 在超出作用域时自动析构。</li>
+</ul>
+<h3 id="8-临界区（Critical-Section）"><a href="#8-临界区（Critical-Section）" class="headerlink" title="8. 临界区（Critical Section）"></a>8. <strong>临界区（Critical Section）</strong></h3><p>临界区通常用于 Windows 平台，它是一种轻量级的互斥工具。</p>
+<ul>
+<li><strong>头文件</strong>: <code>&lt;windows.h&gt;</code></li>
+<li><strong>初始化</strong>:<ul>
+<li><code>CRITICAL_SECTION cs;</code></li>
+<li><code>InitializeCriticalSection(&amp;cs);</code></li>
+</ul>
+</li>
+<li><strong>操作</strong>:<ul>
+<li><code>EnterCriticalSection(&amp;cs);</code>  &#x2F;&#x2F; 获取临界区</li>
+<li><code>LeaveCriticalSection(&amp;cs);</code>  &#x2F;&#x2F; 释放临界区</li>
+</ul>
+</li>
+<li><strong>销毁</strong>:<ul>
+<li><code>DeleteCriticalSection(&amp;cs);</code>  &#x2F;&#x2F; 删除临界区</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-互斥量的标准类（例如-std-lock-guard-和-std-unique-lock）"><a href="#9-互斥量的标准类（例如-std-lock-guard-和-std-unique-lock）" class="headerlink" title="9. 互斥量的标准类（例如 std::lock_guard 和 std::unique_lock）"></a>9. <strong>互斥量的标准类（例如 <code>std::lock_guard</code> 和 <code>std::unique_lock</code>）</strong></h3><p>这些类用于简化锁的管理，自动加锁和解锁。</p>
+<ul>
+<li><strong>头文件</strong>: <code>&lt;mutex&gt;</code></li>
+<li><strong>操作</strong>:<ul>
+<li><code>std::lock_guard&lt;std::mutex&gt; guard(mtx);</code>  &#x2F;&#x2F; 自动加锁，作用域结束时自动解锁</li>
+<li><code>std::unique_lock&lt;std::mutex&gt; lock(mtx);</code>  &#x2F;&#x2F; 手动控制加锁和解锁</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>头文件</th>
+<th>初始化</th>
+<th>操作</th>
+<th>销毁</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>互斥量（Mutex）</strong></td>
+<td><code>&lt;mutex&gt;</code></td>
+<td><code>std::mutex mtx;</code></td>
+<td><code>mtx.lock(); mtx.unlock();</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>读写锁（Shared Mutex）</strong></td>
+<td><code>&lt;shared_mutex&gt;</code></td>
+<td><code>std::shared_mutex smtx;</code></td>
+<td><code>lock_shared(); unlock_shared();</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>条件变量（Condition Variable）</strong></td>
+<td><code>&lt;condition_variable&gt;</code></td>
+<td><code>std::condition_variable cv;</code></td>
+<td><code>cv.wait(); cv.notify_one();</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>原子操作（Atomic）</strong></td>
+<td><code>&lt;atomic&gt;</code></td>
+<td><code>std::atomic&lt;int&gt; counter(0);</code></td>
+<td><code>counter.load(); counter.store(value);</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>二元信号量（Binary Semaphore）</strong></td>
+<td><code>&lt;semaphore&gt;</code> (C++20)</td>
+<td><code>std::binary_semaphore sem(0);</code></td>
+<td><code>sem.acquire(); sem.release();</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>信号量（Counting Semaphore）</strong></td>
+<td><code>&lt;semaphore&gt;</code> (C++20)</td>
+<td><code>std::counting_semaphore&lt;3&gt; sem(3);</code></td>
+<td><code>sem.acquire(); sem.release();</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>屏障（Barrier）</strong></td>
+<td><code>&lt;barrier&gt;</code> (C++20)</td>
+<td><code>std::barrier barrier(3);</code></td>
+<td><code>barrier.arrive_and_wait();</code></td>
+<td>自动销毁</td>
+</tr>
+<tr>
+<td><strong>临界区（Critical Section）</strong></td>
+<td><code>&lt;windows.h&gt;</code></td>
+<td><code>InitializeCriticalSection(&amp;cs);</code></td>
+<td><code>EnterCriticalSection(&amp;cs);</code></td>
+<td><code>DeleteCriticalSection(&amp;cs);</code></td>
+</tr>
+</tbody></table>
+<p>每种机制适用于不同的同步场景，选择时需要根据具体需求（例如是否需要支持多个线程同时读取、是否需要无锁操作等）进行选择。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BA%92%E6%96%A5%E9%87%8F%EF%BC%88Mutex%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">1. 互斥量（Mutex）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AF%BB%E5%86%99%E9%94%81%EF%BC%88Shared-Mutex%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">2. 读写锁（Shared Mutex）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%EF%BC%88Condition-Variable%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">3. 条件变量（Condition Variable）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C%EF%BC%88Atomic-Operations%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">4. 原子操作（Atomic Operations）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BA%8C%E5%85%83%E4%BF%A1%E5%8F%B7%E9%87%8F%EF%BC%88Binary-Semaphore%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">5. 二元信号量（Binary Semaphore）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%BF%A1%E5%8F%B7%E9%87%8F%EF%BC%88Counting-Semaphore%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">6. 信号量（Counting Semaphore）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%B1%8F%E9%9A%9C%EF%BC%88Barrier%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">7. 屏障（Barrier）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E4%B8%B4%E7%95%8C%E5%8C%BA%EF%BC%88Critical-Section%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">8. 临界区（Critical Section）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E4%BA%92%E6%96%A5%E9%87%8F%E7%9A%84%E6%A0%87%E5%87%86%E7%B1%BB%EF%BC%88%E4%BE%8B%E5%A6%82-std-lock-guard-%E5%92%8C-std-unique-lock%EF%BC%89"><span class="toc-number">9.</span> <span class="toc-text">9. 互斥量的标准类（例如 std::lock_guard 和 std::unique_lock）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&text=C++的同步互斥机制"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&is_video=false&description=C++的同步互斥机制"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++的同步互斥机制&body=Check out this article: https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&title=C++的同步互斥机制"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&name=C++的同步互斥机制&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/C-%E7%9A%84%E5%90%8C%E6%AD%A5%E4%BA%92%E6%96%A5%E6%9C%BA%E5%88%B6/&t=C++的同步互斥机制"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

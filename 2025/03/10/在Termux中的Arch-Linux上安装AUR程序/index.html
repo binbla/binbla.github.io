@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在Termux中的Arch Linux上安装AUR程序概述在Termux中运行的Arch Linux ARM（ArchLinuxARM）无法直接安装AUR（Arch User Repository）中的软件包。然而，通过一些手动操作，我们仍然可以成功安装AUR程序。本文将详细介绍如何在Termux中的Arch Linux上安装AUR程序。 步骤1. 下载AUR包首先，访问AUR官网，搜索你想要安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Termux中的Arch Linux上安装AUR程序">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="在Termux中的Arch Linux上安装AUR程序概述在Termux中运行的Arch Linux ARM（ArchLinuxARM）无法直接安装AUR（Arch User Repository）中的软件包。然而，通过一些手动操作，我们仍然可以成功安装AUR程序。本文将详细介绍如何在Termux中的Arch Linux上安装AUR程序。 步骤1. 下载AUR包首先，访问AUR官网，搜索你想要安装">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-03-10T15:39:16.000Z">
+<meta property="article:modified_time" content="2025-03-10T15:39:37.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>在Termux中的Arch Linux上安装AUR程序</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/%E6%A0%91%E8%8E%93%E6%B4%BE4B%E5%AE%89%E8%A3%85Arch-Linux-ARM-aarch64/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/waydroid%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&text=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&is_video=false&description=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在Termux中的Arch Linux上安装AUR程序&body=Check out this article: https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&name=在Termux中的Arch Linux上安装AUR程序&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&t=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">在Termux中的Arch Linux上安装AUR程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.2.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BDAUR%E5%8C%85"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 下载AUR包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%A7%A3%E5%8E%8B%E5%8C%85"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 解压包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%9B%E5%85%A5%E5%8C%85%E7%9B%AE%E5%BD%95%E5%B9%B6%E5%B0%9D%E8%AF%95%E7%BC%96%E8%AF%91"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 进入包目录并尝试编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B8%85%E7%90%86%E5%B9%B6%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85"><span class="toc-number">1.2.5.</span> <span class="toc-text">5. 清理并重新打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%9C%A8PC%E4%B8%8A%E4%BF%AE%E6%94%B9%E5%B9%B6%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85"><span class="toc-number">1.2.6.</span> <span class="toc-text">6. 在PC上修改并重新打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%9C%A8Termux%E4%B8%AD%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.7.</span> <span class="toc-text">7. 在Termux中安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        在Termux中的Arch Linux上安装AUR程序
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T15:39:16.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="在Termux中的Arch-Linux上安装AUR程序"><a href="#在Termux中的Arch-Linux上安装AUR程序" class="headerlink" title="在Termux中的Arch Linux上安装AUR程序"></a>在Termux中的Arch Linux上安装AUR程序</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Termux中运行的Arch Linux ARM（ArchLinuxARM）无法直接安装AUR（Arch User Repository）中的软件包。然而，通过一些手动操作，我们仍然可以成功安装AUR程序。本文将详细介绍如何在Termux中的Arch Linux上安装AUR程序。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="1-下载AUR包"><a href="#1-下载AUR包" class="headerlink" title="1. 下载AUR包"></a>1. 下载AUR包</h3><p>首先，访问<a target="_blank" rel="noopener" href="https://aur.archlinux.org/">AUR官网</a>，搜索你想要安装的AUR包。确保该包支持<code>aarch64</code>（ARM64）架构。进入包的详情页面后，点击“Download snapshot”以下载该包的快照。</p>
+<h3 id="2-解压包"><a href="#2-解压包" class="headerlink" title="2. 解压包"></a>2. 解压包</h3><p>切换到普通用户（<code>alarm</code>），然后找到下载的snapshot文件并解压：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - alarm</span><br><span class="line">tar -zxvf package.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-安装依赖"><a href="#3-安装依赖" class="headerlink" title="3. 安装依赖"></a>3. 安装依赖</h3><p>在编译AUR包之前，可能需要安装一些依赖项。例如，如果包需要Go语言支持，可以运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S go</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-进入包目录并尝试编译"><a href="#4-进入包目录并尝试编译" class="headerlink" title="4. 进入包目录并尝试编译"></a>4. 进入包目录并尝试编译</h3><p>进入解压后的包目录，并尝试使用<code>makepkg</code>进行编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> package</span><br><span class="line">makepkg</span><br></pre></td></tr></table></figure>
+
+<p>在编译过程中，可能会在<code>fakeroot</code>阶段失败，但二进制文件通常已经生成。此时，我们需要将包上传到PC上进行重新打包。</p>
+<h3 id="5-清理并重新打包"><a href="#5-清理并重新打包" class="headerlink" title="5. 清理并重新打包"></a>5. 清理并重新打包</h3><p>首先，删除生成的压缩包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> *.tar.gz*</span><br></pre></td></tr></table></figure>
+
+<p>然后，退回上一级目录并使用root权限重新打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">su</span><br><span class="line">tar -zcvf package.tar.gz package</span><br></pre></td></tr></table></figure>
+
+<p>将生成的<code>package.tar.gz</code>文件上传到PC。</p>
+<h3 id="6-在PC上修改并重新打包"><a href="#6-在PC上修改并重新打包" class="headerlink" title="6. 在PC上修改并重新打包"></a>6. 在PC上修改并重新打包</h3><p>在PC上解压上传的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf package.tar.gz</span><br><span class="line"><span class="built_in">cd</span> package</span><br></pre></td></tr></table></figure>
+
+<p>备份并编辑<code>makepkg.conf</code>文件，将<code>x86_64</code>替换为<code>aarch64</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/makepkg.conf /etc/makepkg.conf.bak</span><br><span class="line"><span class="built_in">sudo</span> vim /etc/makepkg.conf</span><br></pre></td></tr></table></figure>
+
+<p>在Vim中执行以下替换命令：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:%s/x86_64/aarch64/gc</span><br><span class="line">:%s/x86-<span class="number">64</span>/aarch64/gc</span><br><span class="line">:<span class="keyword">wq</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来，修改<code>PKGBUILD</code>文件，将识别环境的变量改为固定的<code>aarch64</code>。</p>
+<p>最后，重新打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makepkg --repackage</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-在Termux中安装"><a href="#7-在Termux中安装" class="headerlink" title="7. 在Termux中安装"></a>7. 在Termux中安装</h3><p>将重新打包后的<code>package.tar.gz</code>文件传回Termux，并使用以下命令安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -U package.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过以上步骤，你可以在Termux中的Arch Linux上成功安装AUR程序。虽然过程稍显复杂，但这是目前较为有效的方法。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">在Termux中的Arch Linux上安装AUR程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.2.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BDAUR%E5%8C%85"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 下载AUR包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%A7%A3%E5%8E%8B%E5%8C%85"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 解压包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%9B%E5%85%A5%E5%8C%85%E7%9B%AE%E5%BD%95%E5%B9%B6%E5%B0%9D%E8%AF%95%E7%BC%96%E8%AF%91"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 进入包目录并尝试编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B8%85%E7%90%86%E5%B9%B6%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85"><span class="toc-number">1.2.5.</span> <span class="toc-text">5. 清理并重新打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%9C%A8PC%E4%B8%8A%E4%BF%AE%E6%94%B9%E5%B9%B6%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85"><span class="toc-number">1.2.6.</span> <span class="toc-text">6. 在PC上修改并重新打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%9C%A8Termux%E4%B8%AD%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.7.</span> <span class="toc-text">7. 在Termux中安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&text=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&is_video=false&description=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在Termux中的Arch Linux上安装AUR程序&body=Check out this article: https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&title=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&name=在Termux中的Arch Linux上安装AUR程序&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E5%9C%A8Termux%E4%B8%AD%E7%9A%84Arch-Linux%E4%B8%8A%E5%AE%89%E8%A3%85AUR%E7%A8%8B%E5%BA%8F/&t=在Termux中的Arch Linux上安装AUR程序"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="用斐讯遗产N1来搭建一个小型web服务器吧（咕咕咕 【久远文章，不建议参考】">
+<meta property="og:type" content="article">
+<meta property="og:title" content="N1盒子搭建小型web服务器">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="用斐讯遗产N1来搭建一个小型web服务器吧（咕咕咕 【久远文章，不建议参考】">
+<meta property="og:locale">
+<meta property="og:image" content="https://pan.shawshang.cn/view/1/Images/2020/11/15/p9uM3nTX/Screenshot_20201115_202958.png">
+<meta property="article:published_time" content="2025-03-10T15:45:47.000Z">
+<meta property="article:modified_time" content="2025-03-10T15:46:31.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pan.shawshang.cn/view/1/Images/2020/11/15/p9uM3nTX/Screenshot_20201115_202958.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>N1盒子搭建小型web服务器</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/%E6%A0%91%E8%8E%93%E6%B4%BE4B%E5%AE%89%E8%A3%85Arch-Linux-ARM-aarch64/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&text=N1盒子搭建小型web服务器"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&is_video=false&description=N1盒子搭建小型web服务器"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=N1盒子搭建小型web服务器&body=Check out this article: https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=N1盒子搭建小型web服务器&description=&lt;p&gt;&lt;em&gt;用斐讯遗产N1来搭建一个小型web服务器吧（咕咕咕&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;【久远文章，不建议参考】&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&t=N1盒子搭建小型web服务器"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">开始搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#N1%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">N1的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number">2.2.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E7%BA%A7"><span class="toc-number">2.3.</span> <span class="toc-text">降级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#U%E7%9B%98%E5%88%B7%E5%86%99"><span class="toc-number">2.4.</span> <span class="toc-text">U盘刷写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5armbiam"><span class="toc-number">2.5.</span> <span class="toc-text">进入armbiam</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E6%8E%89%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E7%9A%8490s"><span class="toc-number">2.6.</span> <span class="toc-text">去掉关机重启的90s</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9fstab"><span class="toc-number">2.7.</span> <span class="toc-text">修改fstab</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9swap"><span class="toc-number">2.8.</span> <span class="toc-text">扩容swap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4zram%E7%9A%84swap"><span class="toc-number">2.9.</span> <span class="toc-text">删除zram的swap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%81%E7%94%A8zram%E7%9A%84-var-log"><span class="toc-number">2.10.</span> <span class="toc-text">禁用zram的&#x2F;var&#x2F;log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C"><span class="toc-number">2.11.</span> <span class="toc-text">配置网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%A2%E6%BA%90"><span class="toc-number">2.12.</span> <span class="toc-text">换源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E5%88%B0EMMC"><span class="toc-number">2.13.</span> <span class="toc-text">写入到EMMC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%8B%E8%BF%99%E4%B8%AA%E7%8E%AF%E5%A2%83"><span class="toc-number">2.14.</span> <span class="toc-text">配置下这个环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%B1%E7%94%9F%E5%A3%B3"><span class="toc-number">2.15.</span> <span class="toc-text">花生壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FRP"><span class="toc-number">2.16.</span> <span class="toc-text">FRP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9D%E5%A1%94"><span class="toc-number">2.17.</span> <span class="toc-text">宝塔</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#qbittorrent"><span class="toc-number">2.18.</span> <span class="toc-text">qbittorrent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Onedrive%E7%BD%91%E7%9B%98"><span class="toc-number">2.19.</span> <span class="toc-text">Onedrive网盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#haveged"><span class="toc-number">2.20.</span> <span class="toc-text">haveged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%93%9D%E7%89%99"><span class="toc-number">2.21.</span> <span class="toc-text">蓝牙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#onedrive"><span class="toc-number">2.22.</span> <span class="toc-text">onedrive</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        N1盒子搭建小型web服务器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T15:45:47.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><em>用斐讯遗产N1来搭建一个小型web服务器吧（咕咕咕</em></p>
+<p>【久远文章，不建议参考】</p>
+<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><img src="https://pan.shawshang.cn/view/1/Images/2020/11/15/p9uM3nTX/Screenshot_20201115_202958.png" alt="Screenshot_20201115_202958.png"></p>
+<p>没几年就要满22了，意味着不能继续嫖阿里云的学生机了，反正只是我的一个小博客记录东记录西的，对性能要求也不高。正好学校的电信宽带是公网的，索性用手里的N1来搭建自己的服务器吧。</p>
+<p>以下所有东西都是本人四处整理的自己可用的方案</p>
+<h1 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h1><h2 id="N1的配置"><a href="#N1的配置" class="headerlink" title="N1的配置"></a>N1的配置</h2><table>
+<thead>
+<tr>
+<th align="center">CPU</th>
+<th align="center">Amlogic S905D 64位 4核 Cortex A53 1.5GHz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">GPU</td>
+<td align="center">ARM Mali 450</td>
+</tr>
+<tr>
+<td align="center">内存</td>
+<td align="center">2G</td>
+</tr>
+<tr>
+<td align="center">闪存</td>
+<td align="center">8G</td>
+</tr>
+<tr>
+<td align="center">WIFI</td>
+<td align="center">2.4&#x2F;5G</td>
+</tr>
+<tr>
+<td align="center">蓝牙</td>
+<td align="center">4.1</td>
+</tr>
+</tbody></table>
+<p>其他的跟咱们要玩的操作无关，不加以介绍了</p>
+<p>由于其启动系统的方式，因此和普通的安卓机不一样的可以引导启动Linux</p>
+<p><a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-510423-1-1.html">https://www.right.com.cn/forum/thread-510423-1-1.html</a></p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li><p>N1机子一台</p>
+</li>
+<li><p>局域网+电脑</p>
+</li>
+<li><p>8G+的U盘</p>
+</li>
+</ul>
+<h2 id="降级"><a href="#降级" class="headerlink" title="降级"></a>降级</h2><p>如果有遥控器和HDMI显示器会方便很多。如果没有的话那就只能去网线连盒子，手机局域网安装斐讯的那个遥控器了通过截图来打开usb调试了，具体不详细说了，到处都是帖子</p>
+<h2 id="U盘刷写"><a href="#U盘刷写" class="headerlink" title="U盘刷写"></a>U盘刷写</h2><p>我是LINUX下操作的，所以直接<code>dd if=./Armbian5.77.img of=/dev/sdd bs=4M</code>等待老半天就刷写好了。</p>
+<p>5.77的话可以使用<code>meson-gxl-s905d-phicomm-n1-xiangsm.dtb</code> 。也就是把这个文件放到<code>BOOT</code>分区里面的<code>dtb</code>文件夹里面，然后修改<code>uEnv.ini</code>的dtb指向地址就行<code>dtb_name=/dtb/meson-gxl-s905d-phicomm-n1-xiangsm.dtb</code></p>
+<p>插上U盘到HDMI旁边的那个USB口，插上电源就开机进入了是盘里面的LINUX系统。</p>
+<h2 id="进入armbiam"><a href="#进入armbiam" class="headerlink" title="进入armbiam"></a>进入armbiam</h2><p>有HDMI显示器的可以直接在盒子后面接一个USB键盘操作。如果没有的话，用网线让其与其他设备处在同一个局域网用SSH连接操作。</p>
+<p>LINUX下的SSH操作：<code>ssh user@ipaddress</code> 默认密码是<code>1234</code>，进入之后会有重置密码和新建普通用户的提示操作。如果不知道IP地址，可以用<strong>nmap</strong>扫<strong>22</strong>端口例如<code>nmap -p 22 192.168.1.1-253</code></p>
+<h2 id="去掉关机重启的90s"><a href="#去掉关机重启的90s" class="headerlink" title="去掉关机重启的90s"></a>去掉关机重启的90s</h2><p><code>vim /etc/systemd/system.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DefaultTimeoutStopSec=1s</span><br><span class="line">DefaultRestartSec=100ms</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改fstab"><a href="#修改fstab" class="headerlink" title="修改fstab"></a>修改fstab</h2><p>如果用的是硬盘之类的，最好修改fstab挂载分区位置</p>
+<p><code>blkid</code>可以查看磁盘的UUID</p>
+<p><code>vim /etc/fstab</code></p>
+<p>把LABLE&#x3D;ROOTFS修改成UUID&#x3D;XXXX-XXXX-XXXXXXXXXX这类的，不要引号</p>
+<h2 id="扩容swap"><a href="#扩容swap" class="headerlink" title="扩容swap"></a>扩容swap</h2><p>由于我用的SSD硬盘，可以适当扩容swap。</p>
+<ol>
+<li>创建swapfile: 2GB</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=/mnt/swapfile bs=1M count=2048</span><br></pre></td></tr></table></figure>
+
+<p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2048+0 records in</span><br><span class="line">2048+0 records out</span><br><span class="line">2147483648 bytes (2.1 GB, 2.0 GiB) copied, 51.7974 s, 41.5 MB/s</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>格式化交换文件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkswap /mnt/swapfile</span><br><span class="line">mkswap: /mnt/swapfile: insecure permissions 0644, 0600 suggested.</span><br><span class="line">Setting up swapspace version 1, size = 2 GiB (2147479552 bytes)</span><br><span class="line">no label, UUID=5ded1a0a-e22c-493b-9aee-afd5a50299d7</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>加载swap</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 /mnt/swapfile</span><br><span class="line">swapon /mnt/swapfile</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>写入fstab</li>
+</ol>
+<p>在<code>/etc/fstab</code>末尾添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/mnt/swapfile swap swap defaults 0 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除zram的swap"><a href="#删除zram的swap" class="headerlink" title="删除zram的swap"></a>删除zram的swap</h2><ol>
+<li>查看现有的swap</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cat /proc/swaps</span><br><span class="line">Filename				Type		Size	Used	Priority</span><br><span class="line">/dev/zram1                              partition	922748	0	5</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># swapon -s</span><br><span class="line">Filename				Type		Size	Used	Priority</span><br><span class="line">/dev/zram1                             	partition	922748	0	5</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>释放指定的swap</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># swapoff /dev/zram1</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>禁用zram服务</li>
+</ol>
+<p>修改文件<code>/etc/default/armbian-zram-config</code>，改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENABLED=false</span><br></pre></td></tr></table></figure>
+
+<h2 id="禁用zram的-var-log"><a href="#禁用zram的-var-log" class="headerlink" title="禁用zram的&#x2F;var&#x2F;log"></a>禁用zram的&#x2F;var&#x2F;log</h2><p>zram的&#x2F;var&#x2F;log会每15分钟检查一下使用率，超过75%时会刷入eMMC磁盘。<br> 同样，由于我用的SSD硬盘，可以禁用掉这种机制。</p>
+<ol>
+<li>修改 <code>/etc/default/armbian-ramlog</code>，如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENABLED=false</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>禁用定时截断任务</li>
+</ol>
+<p>修改文件 <code>/etc/cron.d/armbian-truncate-logs</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># */15 * * * * root /usr/lib/armbian/armbian-truncate-logs</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>禁用另一个任务</li>
+</ol>
+<p>修改文件 <code>/etc/cron.daily/armbian-ram-logging</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"># /usr/lib/armbian/armbian-ramlog write &gt;/dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>重启服务</li>
+</ol>
+<p>重启后发现，<code>/var/log.hdd/</code>为空了。</p>
+<h2 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h2><p><code>nmtui</code>配置网络环境<strong>tui</strong>界面还是挺好操作的。空格上下回车</p>
+<p>固定MAC</p>
+<p><code>ifconfig</code>查看当前网络情况，网线的话是<strong>eth0</strong>，把里面的<strong>MAC</strong>记下来</p>
+<p>然后编辑网卡<code>vim /etc/network/interfaces</code>，在<code>iface eth0 inet dhcp</code>下替换添加一行并保存</p>
+<p><code>hwaddress 4e:03:88:54:39:93</code></p>
+<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>和Ubuntu x86_64没啥大的区别</p>
+<p>比如我想用北外的源，打开<a target="_blank" rel="noopener" href="https://mirrors.bfsu.edu.cn/">https://mirrors.bfsu.edu.cn/</a>，找到<strong>ubuntu-ports</strong></p>
+<p><code>https://mirrors.bfsu.edu.cn/ubuntu-ports/</code>  </p>
+<p>然后用这个链接去替换<code>sources.list</code>里面的链接如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.bfsu.edu.cn/ubuntu-ports/ bionic main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.bfsu.edu.cn/ubuntu-ports/ bionic-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.bfsu.edu.cn/ubuntu-ports/ bionic-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https://mirrors.bfsu.edu.cn/ubuntu-ports/ bionic-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+
+<p>然后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt upgrade</span><br></pre></td></tr></table></figure>
+
+<h2 id="写入到EMMC"><a href="#写入到EMMC" class="headerlink" title="写入到EMMC"></a>写入到EMMC</h2><p>U盘里的系统做好了，接下来写入到EMMC就能开机用了(可选)</p>
+<p><code>nand-sata-install</code></p>
+<p><code>poweoff</code>关机拔掉U盘再插上电源重启</p>
+<h2 id="配置下这个环境"><a href="#配置下这个环境" class="headerlink" title="配置下这个环境"></a>配置下这个环境</h2><ol>
+<li>中文 <code>armbian-config</code>里面，<strong>personnal</strong>里面的<strong>local</strong>，勾选<strong>en_US.utf-8</strong>和<strong>zh_CN.utf-8</strong>,<strong>zh_HK.utf-8</strong>,并默认<strong>en_US.utf-8</strong>.再编辑下<code>/etc/environment</code>修改<code>LC_ALL=”en_US.utf-8″</code>，保存。</li>
+<li>配置时区，同样在<strong>personal</strong>里面有个<strong>timezone</strong>,选<strong>asia</strong>-<strong>shanghai</strong></li>
+<li>磁盘挂载：ntfs需要<strong>ntfs-3g</strong>，exfat需要<strong>exfat-utils</strong>和<strong>exfat-fuse</strong>。目前无法实现自动挂载，写定时脚本吧</li>
+</ol>
+<h2 id="花生壳"><a href="#花生壳" class="headerlink" title="花生壳"></a>花生壳</h2><p>看的是恩山的一个<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-4035639-1-1.html" title="帖子">帖子</a></p>
+<p>先绑定好，不用急着开内网穿透</p>
+<h2 id="FRP"><a href="#FRP" class="headerlink" title="FRP"></a>FRP</h2><p>免费的花生壳，不能绑定顶级域名。。</p>
+<p>然后偶然发现了有sakura内网穿透这么个东西，还是免费的。支持顶级域名</p>
+<p><a target="_blank" rel="noopener" href="http://www.natfrp.com/">www.natfrp.com</a></p>
+<p>将下载的程序frpc移动到**&#x2F;usr&#x2F;local&#x2F;sbin<strong>，<code>chmod 755 /usr/local/sbin/frpc</code>然后添加</strong>frpc.services**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Frp Client Service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=nobody</span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5s</span><br><span class="line">ExecStart=/usr/local/sbin/frpc -n -f abbccddeeff:n20</span><br><span class="line">#这里的n20是成都电信，自行替换</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>到&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;frpc.service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl start frpc.service</span><br><span class="line">systemctl <span class="built_in">enable</span> frpc.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="宝塔"><a href="#宝塔" class="headerlink" title="宝塔"></a>宝塔</h2><p>先吧&#x2F;root目录的install.sh重命名,或者已经安装到emmc后直接删除</p>
+<p><code>mv ./install.sh ./install_to_emmc.sh</code></p>
+<p><code>wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh &amp;&amp; sudo bash install.sh</code></p>
+<p>等上一桶泡面的功夫，BT应该就装好了，然后会告诉你后台的端口和用户名密码。</p>
+<p>访问BT后台修改用户名密码，建议端口也改一下，不要填域名！</p>
+<p>重启下</p>
+<h2 id="qbittorrent"><a href="#qbittorrent" class="headerlink" title="qbittorrent"></a>qbittorrent</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install qbittorrent-nox</span><br><span class="line">qbittorrent-nox</span><br><span class="line">y</span><br></pre></td></tr></table></figure>
+
+<p>自启</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=qBittorrenti-nox service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">PrivateTmp=false</span><br><span class="line">ExecStart=/usr/bin/qbittorrent-nox</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>至此，环境搞完了，接下来wordpress？</p>
+<h2 id="Onedrive网盘"><a href="#Onedrive网盘" class="headerlink" title="Onedrive网盘"></a>Onedrive网盘</h2><p><a target="_blank" rel="noopener" href="https://github.com/WangNingkai/OLAINDEX/blob/master/README_CN.md">https://github.com/WangNingkai/OLAINDEX/blob/master/README_CN.md</a></p>
+<p>按说明做就成</p>
+<h2 id="haveged"><a href="#haveged" class="headerlink" title="haveged"></a>haveged</h2><p><code>echo DAEMON_ARGS=&quot;-d 32 -w 1024&quot; &gt; /etc/default/haveged</code></p>
+<p><code>chmod 455 /etc/default/haveged</code></p>
+<h2 id="蓝牙"><a href="#蓝牙" class="headerlink" title="蓝牙"></a>蓝牙</h2><p>sudo armbian-config，进去后选择Network，接着选择BT Install，耐心等待蓝牙组件安装完毕，然后退出。</p>
+<p>接着执行sudo apt install pulseaudio-module-bluetooth 安装pulseaudio组件。安装完成后，分别执行sudo killall pulseaudio和pulseaudio –start启动pulseaudio服务。</p>
+<p>开始进入蓝牙连接阶段，首先执行sudo hciconfig -a查看蓝牙控制器信息，确认无误后，执行sudo hciconfig hci0 up打开蓝牙控制器，然后执行sudo bluetoothctl打开蓝牙管理器。</p>
+<p>先后执行power on，discoverable on，agent on，然后执行scan on搜集周围的蓝牙设备，记录下要连接的设备地址后，执行trust &lt;设备地址&gt;信任设备，然后再执行pair &lt;设备地址&gt;配对，此时，要配对的设备上可能会弹出提示，点确认。</p>
+<p>如以上步骤都没有问题，则执行connect &lt;设备地址&gt;，稍候即可顺利连接蓝牙，可以运行info &lt;设备地址&gt;确认状态。</p>
+<p>&lt;div<?php echo (get_theme_mod( 'simple_days_copyright_simple_days',false) ? ' class="dn"' : ''); ?>&gt;Theme by <a href="<?php echo esc_url('https://back2nature.jp/'.$local_url.'themes/simple-days'); ?>">Simple Days</a></div></p>
+<h2 id="onedrive"><a href="#onedrive" class="headerlink" title="onedrive"></a>onedrive</h2><p><a target="_blank" rel="noopener" href="https://github.com/YukiCoco/OLAINDEX-Magic">https://github.com/YukiCoco/OLAINDEX-Magic</a></p>
+<p><strong>composer update laravel&#x2F;framework</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">开始搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#N1%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">N1的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number">2.2.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E7%BA%A7"><span class="toc-number">2.3.</span> <span class="toc-text">降级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#U%E7%9B%98%E5%88%B7%E5%86%99"><span class="toc-number">2.4.</span> <span class="toc-text">U盘刷写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5armbiam"><span class="toc-number">2.5.</span> <span class="toc-text">进入armbiam</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E6%8E%89%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E7%9A%8490s"><span class="toc-number">2.6.</span> <span class="toc-text">去掉关机重启的90s</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9fstab"><span class="toc-number">2.7.</span> <span class="toc-text">修改fstab</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9swap"><span class="toc-number">2.8.</span> <span class="toc-text">扩容swap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4zram%E7%9A%84swap"><span class="toc-number">2.9.</span> <span class="toc-text">删除zram的swap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%81%E7%94%A8zram%E7%9A%84-var-log"><span class="toc-number">2.10.</span> <span class="toc-text">禁用zram的&#x2F;var&#x2F;log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C"><span class="toc-number">2.11.</span> <span class="toc-text">配置网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%A2%E6%BA%90"><span class="toc-number">2.12.</span> <span class="toc-text">换源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E5%88%B0EMMC"><span class="toc-number">2.13.</span> <span class="toc-text">写入到EMMC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%8B%E8%BF%99%E4%B8%AA%E7%8E%AF%E5%A2%83"><span class="toc-number">2.14.</span> <span class="toc-text">配置下这个环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%B1%E7%94%9F%E5%A3%B3"><span class="toc-number">2.15.</span> <span class="toc-text">花生壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FRP"><span class="toc-number">2.16.</span> <span class="toc-text">FRP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9D%E5%A1%94"><span class="toc-number">2.17.</span> <span class="toc-text">宝塔</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#qbittorrent"><span class="toc-number">2.18.</span> <span class="toc-text">qbittorrent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Onedrive%E7%BD%91%E7%9B%98"><span class="toc-number">2.19.</span> <span class="toc-text">Onedrive网盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#haveged"><span class="toc-number">2.20.</span> <span class="toc-text">haveged</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%93%9D%E7%89%99"><span class="toc-number">2.21.</span> <span class="toc-text">蓝牙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#onedrive"><span class="toc-number">2.22.</span> <span class="toc-text">onedrive</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&text=N1盒子搭建小型web服务器"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&is_video=false&description=N1盒子搭建小型web服务器"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=N1盒子搭建小型web服务器&body=Check out this article: https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=N1盒子搭建小型web服务器"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&name=N1盒子搭建小型web服务器&description=&lt;p&gt;&lt;em&gt;用斐讯遗产N1来搭建一个小型web服务器吧（咕咕咕&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;【久远文章，不建议参考】&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/&t=N1盒子搭建小型web服务器"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

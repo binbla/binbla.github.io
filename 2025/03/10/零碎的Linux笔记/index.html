@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Linux复习日志硬件 北桥：快、CPU,RAM,GC  南桥：慢、  外频和倍频  现代的cpu与RAM和GC设备沟通的技术  Intel：使用QPI技术与DMI技术  AMD：使用HyperTransport技术    前端总线速度（FSB）  字组大小：现在称计算机时32位还是64位的依据。32位最大到4GBytes内存  CPU等级i368、i586、i686-&gt;x86_64。向下兼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零碎的Linux笔记">
+<meta property="og:url" content="https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="Linux复习日志硬件 北桥：快、CPU,RAM,GC  南桥：慢、  外频和倍频  现代的cpu与RAM和GC设备沟通的技术  Intel：使用QPI技术与DMI技术  AMD：使用HyperTransport技术    前端总线速度（FSB）  字组大小：现在称计算机时32位还是64位的依据。32位最大到4GBytes内存  CPU等级i368、i586、i686-&gt;x86_64。向下兼">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-03-10T15:50:32.000Z">
+<meta property="article:modified_time" content="2025-03-10T15:51:59.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>零碎的Linux笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/Grub%E6%95%91%E6%80%A5/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/10/N1%E7%9B%92%E5%AD%90%E6%90%AD%E5%BB%BA%E5%B0%8F%E5%9E%8Bweb%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&text=零碎的Linux笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&is_video=false&description=零碎的Linux笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=零碎的Linux笔记&body=Check out this article: https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&name=零碎的Linux笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&t=零碎的Linux笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E5%A4%8D%E4%B9%A0%E6%97%A5%E5%BF%97"><span class="toc-number">1.</span> <span class="toc-text">Linux复习日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E6%9D%83%E9%99%90%E5%9F%BA%E7%A1%80"><span class="toc-number">1.3.</span> <span class="toc-text">Linux 权限基础</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        零碎的Linux笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-10T15:50:32.000Z" class="dt-published" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Linux复习日志"><a href="#Linux复习日志" class="headerlink" title="Linux复习日志"></a>Linux复习日志</h1><h2 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h2><ul>
+<li><p>北桥：快、CPU,RAM,GC</p>
+</li>
+<li><p>南桥：慢、</p>
+</li>
+<li><p>外频和倍频</p>
+</li>
+<li><p>现代的cpu与RAM和GC设备沟通的技术</p>
+<ul>
+<li><p>Intel：使用QPI技术与DMI技术</p>
+</li>
+<li><p>AMD：使用HyperTransport技术</p>
+</li>
+</ul>
+</li>
+<li><p>前端总线速度（FSB）</p>
+</li>
+<li><p>字组大小：现在称计算机时32位还是64位的依据。32位最大到4GBytes内存</p>
+</li>
+<li><p>CPU等级<br>i368、i586、i686-&gt;x86_64。向下兼容</p>
+</li>
+<li><p>超线程（HT），性能效果跟实际使用情况相关</p>
+</li>
+<li><p>动态随机存储内存：DRAM<br>SDRAM：<br>DDR SDRAM：双倍数据传输速度（double data rate）<br>DDR2时四倍，DDR3是八倍。DDR3l是低电压版本</p>
+</li>
+<li><p>双通道设计</p>
+</li>
+<li><p>静态随机储存内存：SRAM<br>第二层cache，在cpu里面，与cpu的频率同步。价格较高，容量小，但是速度快</p>
+</li>
+<li><p>ROM：</p>
+</li>
+<li><p>CMOS：一个存放硬件参数信息的芯片，主板的电池的作用。</p>
+</li>
+<li><p>BIOS：现在一般写入到flash或者EEPROM中。有可读写特性，方便更新。</p>
+</li>
+<li><p>GPU：3D加速的芯片。</p>
+</li>
+<li><p>显示接口：</p>
+<ul>
+<li>D-sub（VGA端子）：15针</li>
+<li>DVI：有四种以上的接头</li>
+<li>HDMI：特点是可以同时传输影像和声音</li>
+<li>Display port：使用较少</li>
+</ul>
+</li>
+<li><p>存储设备：<br>硬盘、软盘、MO、CD、DVD、磁带机、闪存、蓝光光驱等，局域网存储设备（SAN、NAS）</p>
+</li>
+<li><p>磁盘与计算机的连接：<br>SATA、SAS、IDE与SCSI等。考虑外接设备的话还有USB、eSATA等。目前仅有的是SATA（取代IDE）和SAS（取代SCSI）。<br>SATA3口的理论速度可以达到600MBytes&#x2F;s，但是一般只能跑到150~200MBytes&#x2F;s。<br>SAS会比SATA好，还有热拨插功能，但是贵很多，个人计算机一般不配。<br>USB2.0理论60MBytes&#x2F;s，但通常只有30-40MBytes&#x2F;s<br>USB3.0读写差不多在100MBytes&#x2F;s附近（指质量较好的）。<br>固态：拿闪存做的大容量“磁盘”，SSD。<br>测试磁盘的指标：每秒读写操作次数（IOPS）<br>购买磁盘需要考虑：接口（SATA或是SAS）、SSD还是HDD，容量，缓冲存储器（越大越好，主流产品能够达到60MB），转速（一般3.5寸7200r&#x2F;s，2.5寸5400r&#x2F;s）</p>
+</li>
+<li><p>PCIe插口发展：早期的PCI-&gt;AGP-&gt;PCI-Express。传输数据的带宽是越来越大。<br>PCIe卡的信道数看长度就能识别（常见的是x1，x4，x8，x16，个人计算机一般是一个x16。主要是CPU一般只支持16个信道，主板可能会分成1个x16或者两个x8，妙的是，x16的卡也可以插在x16口（实际只有x4）上，只能效能只剩下1&#x2F;4，靠近CPU的应该是与CPU直接联机的，远的扩展出来的PCIe口是和南桥联机的，特点就是慢）</p>
+</li>
+<li><p>各个设备都有自己的I&#x2F;O地址（门牌号），IRQ中断信号是各个设备与CPU之间直连路径发出的信号。</p>
+</li>
+<li><p>连接设备的接口：<br>PS&#x2F;2接口：老电脑的鼠标键盘接口。<br>USB接口<br>声音输入输出麦克风口，三个圆孔<br>RJ-45网络口，常见的水晶头口，八根线。</p>
+<ul>
+<li>T586A：绿白、绿、橙白、蓝、蓝白、橙、棕白、棕</li>
+<li>T586B：橙白、橙、绿白、蓝、蓝白、绿、棕白、棕</li>
+</ul>
+<p>HDMI</p>
+</li>
+<li><p>电源供应器</p>
+</li>
+</ul>
+<h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><ul>
+<li>unicode是规范，utf是实现</li>
+<li>date：当前日期 年%Y月%m日%d时%H%分%M</li>
+<li>bc：计算器 使用quit退出</li>
+<li>cal：万年历 cal m y</li>
+<li>[ctrl] + d：eof</li>
+<li>[shift] + [page up]：向上翻页</li>
+<li>who 查看在线用户</li>
+<li>chgrp：更改用户组</li>
+<li>chmod<ul>
+<li>chmod 755 .&#x2F;test.c</li>
+<li>chmod a+x .&#x2F;test.c</li>
+<li>chmod u&#x3D;rwx,go&#x3D;r .&#x2F;test.c</li>
+<li>chmod a-x .&#x2F;test.c</li>
+</ul>
+</li>
+<li>删除文件的能力由当前目录权限w控制</li>
+<li>对于目录，r可以读取文件夹中有哪些东西 ，w可以对文件夹内的文件或文件夹删除、更名、新建、移动，x能否进入该目录</li>
+<li>Linux的目录：参考FHS官方文件<ul>
+<li>. ：当前</li>
+<li>.&#x2F;.：上一级</li>
+<li>&#x2F;- ：上一个目录</li>
+<li>~ ：home</li>
+<li>~account ：account的home</li>
+</ul>
+</li>
+<li>cat </li>
+<li>tac</li>
+<li>nl 顺便输出行号</li>
+<li>more （空格一页，回车一行 &#x2F;查找 :f显示文件名和行数 q退出 b 往回翻页）</li>
+<li>less 可以向前翻页（可以使用pgdown和pgup，?向前搜索 g第一行 G最后一行）</li>
+<li>head 只看头几行</li>
+<li>od 读取二进制</li>
+<li>head 显示几行(-n num)负数就是除去最后num行</li>
+<li>tail 显示后面几行 同理负数就是去除前面num行</li>
+<li>file 查看文件的类型</li>
+<li>which 查找命令的位置</li>
+<li>type 查看命令是什么东西（是别名？、二进制文件的位置？）</li>
+<li>whereis 找文件，在系统常用目录中找（会找到二进制文件，man手册、来源文件）</li>
+<li>locate 在已经建立的数据库中查找，archlinux中没有安装</li>
+<li>find 功能很强大，很操硬盘<code>find / -name passwd</code></li>
+<li>ln (-s 符号链接 -i inode链接)</li>
+<li>lsblk 查看磁盘状态和挂载点</li>
+<li>blkid 列出装置的uuid</li>
+<li>parted和fdisk用来分区</li>
+<li>mkfs.xxx 格式化分区</li>
+<li>文字处理三剑客<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/110983126">https://zhuanlan.zhihu.com/p/110983126</a><ul>
+<li>grep</li>
+<li>awk</li>
+<li>sed</li>
+</ul>
+</li>
+<li>tree 列出文件树</li>
+<li>cut 将文件的每一行按指定分隔符分割并输出</li>
+<li>tar [ctx][ajz]vf 文件名.tar.[gz] 文件名</li>
+</ul>
+<p>shell script相关</p>
+<ul>
+<li>test 测试文件的各种信息 也可以测试表达式 <code>test $1==$op</code></li>
+<li>export 设置变量</li>
+<li><code>((express))</code>返回表达式的值<code>((echo &#39;12*13&#39; | bc))</code></li>
+<li><code>[]</code>判断符号， 表达式与中括号之间要有空格，变量要用双引号括起来</li>
+<li>参数：参数的个数@各个参数分开构成的字符串组，所有参数用分隔符隔开默认空格构成的一个字符串</li>
+<li>shift n：移动n个变量（吞掉前n个变量）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if [ expr ];then</span><br><span class="line">	express1;</span><br><span class="line">elif [ expr ];then</span><br><span class="line">	express2</span><br><span class="line">else</span><br><span class="line">	express3;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">case $var in</span><br><span class="line">	&quot;a&quot;)</span><br><span class="line">	express1</span><br><span class="line">	;;</span><br><span class="line">	&quot;b&quot;)</span><br><span class="line">	express2</span><br><span class="line">	;;</span><br><span class="line">	*)</span><br><span class="line">	express3</span><br><span class="line">	;;</span><br><span class="line">	exit 1</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p>read：<code>read -p &quot;Input:&quot; choice</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function fname()&#123;</span><br><span class="line">	express block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while [ expr ]</span><br><span class="line">do</span><br><span class="line">	express block;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">until [ condition ]</span><br><span class="line">do</span><br><span class="line">	express block;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for var in con1 con2 con3...</span><br><span class="line">do</span><br><span class="line">	express block;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for ((i=1;i&lt;$m;i=i+1))</span><br><span class="line">do</span><br><span class="line">	express block;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><code>sh -n dd.sh</code>即检查sh的错误</p>
+<h2 id="Linux-权限基础"><a href="#Linux-权限基础" class="headerlink" title="Linux 权限基础"></a>Linux 权限基础</h2><p>使用<code>ls -al /etc</code>可以看到多个文件的信息<br>第一个字段就是文件的类型和权限普通文件共10个字符<br><code>drwxrwxrwx</code><br>第一个字符是文件的类型</p>
+<ul>
+<li>d：目录文件，即文件夹，也视作文件（directory）</li>
+<li>-：普通文件（regular file）</li>
+<li>l：连结文件（link）</li>
+<li>b：硬盘之类的块设备（block）</li>
+<li>c：键盘鼠标之类的字符设备（character）</li>
+<li>s：数据接口文件（sockets）</li>
+<li>p：数据传输文件（pipe）<br>后面九个字段<code>rwxrwxrwx</code>每三个一组，分别是用户<code>u</code>，用户组<code>g</code>，其他<code>o</code>的权限<br><code>u</code>是文件的所有者，<code>g</code>是文件所属的组，<code>o</code>是其他用户或组<br>每三个字段对应二进制的0-1，比如rwx对应111即十进制7，r-x对应101即十进制5</li>
+</ul>
+<p>下面对权限的作用说明<br>对于普通文件，如<code>.txt</code>文件</p>
+<ul>
+<li>r：可以读取文件的内容</li>
+<li>w：可以修改文件中的内容，新增修改追加都可以</li>
+<li>x：执行文件</li>
+</ul>
+<p>对于目录文件</p>
+<ul>
+<li>r：可以知道文件夹有哪些文件</li>
+<li>w：可以修改文件夹中的文件，对文件新增，更名，删除，移动，对象是文件本身而不是文件本身的内容（文件本身里面的内容由文件自己的权限控制）</li>
+<li>x：可以进入文件夹</li>
+</ul>
+<p>说明：<br><code>cp /etc/fstab /tmp</code>，需要有目录&#x2F;etc的x权限，有文件&#x2F;etc&#x2F;fstab的r权限，有&#x2F;tmp的wx权限<br><code>mv /etc/tmp.txt /tmp</code>，需要有目录&#x2F;etc的wx权限，有文件&#x2F;tmp.txt的r权限，有&#x2F;tmp的wx权限<br><code>mv /etc/*.txt /tmp</code>，需要目录&#x2F;etc的rwx权限，有多个文件*.txt的r权限，有&#x2F;tmp的wx权限<br><code>echo &#39;hello world&#39; &gt;&gt; /tmp/test/1.txt</code>，需要目录&#x2F;tmp的x权限，目录&#x2F;tmp&#x2F;test的x权限，文件1.txt的w权限。<br><code>echo &#39;fuck&#39; &gt; /tmp/11.txt</code>，如果11.txt文件存在，就算11.txt没有我的w权限但只要&#x2F;tmp有我的w权限也是可以成功的。其过程相当于删除11.txt，新建11.txt内容是’fuck’的文件。如果是追加<code>&gt;&gt;</code>则会提示权限不允许。</p>
+<p>无论是复制还是移动，首先得有进入该文件夹的权限x，对于知道文件名的文件，不需要r权限即可完成复制，相当于盒子虽然黑，但我知道我要的东西在哪，可以摸黑拿到。而如果不知道完整的文件名则需要r权限，才能知道文件夹中到底有哪些文件符合目标。另外，只有有目录的r权限才能使用tab补全这个文件夹内的文件名。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E5%A4%8D%E4%B9%A0%E6%97%A5%E5%BF%97"><span class="toc-number">1.</span> <span class="toc-text">Linux复习日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E6%9D%83%E9%99%90%E5%9F%BA%E7%A1%80"><span class="toc-number">1.3.</span> <span class="toc-text">Linux 权限基础</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&text=零碎的Linux笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&is_video=false&description=零碎的Linux笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=零碎的Linux笔记&body=Check out this article: https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&title=零碎的Linux笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&name=零碎的Linux笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2025/03/10/%E9%9B%B6%E7%A2%8E%E7%9A%84Linux%E7%AC%94%E8%AE%B0/&t=零碎的Linux笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="搭建 IKEv2 VPN 服务器在家中的 NAS 上搭建 IKEv2 VPN 服务器，实现多端远程组网。  1. 安装所需软件安装 strongswan 和 certbot： 1pacman -S strongswan certbot   2. 域名和证书配置 设置域名 DDNS以域名 vpn.kore.host 为例。  生成服务器私钥进入 &#x2F;etc&#x2F;ipsec.d&#x2F; 目录，生成 RSA 私钥：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置IKEv2服务器">
+<meta property="og:url" content="https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/index.html">
+<meta property="og:site_name" content="Qing&#39;s Logs">
+<meta property="og:description" content="搭建 IKEv2 VPN 服务器在家中的 NAS 上搭建 IKEv2 VPN 服务器，实现多端远程组网。  1. 安装所需软件安装 strongswan 和 certbot： 1pacman -S strongswan certbot   2. 域名和证书配置 设置域名 DDNS以域名 vpn.kore.host 为例。  生成服务器私钥进入 &#x2F;etc&#x2F;ipsec.d&#x2F; 目录，生成 RSA 私钥：">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-10-31T18:09:26.000Z">
+<meta property="article:modified_time" content="2025-03-10T13:57:46.000Z">
+<meta property="article:author" content="Qing He">
+<meta property="article:tag" content="Try Me.">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>配置IKEv2服务器</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/10/Windows-RDP%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/1970/01/01/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&text=配置IKEv2服务器"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&is_video=false&description=配置IKEv2服务器"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=配置IKEv2服务器&body=Check out this article: https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&name=配置IKEv2服务器&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&t=配置IKEv2服务器"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA-IKEv2-VPN-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">搭建 IKEv2 VPN 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85%E6%89%80%E9%9C%80%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">1. 安装所需软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%9F%E5%90%8D%E5%92%8C%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">2. 域名和证书配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">3. 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">4. 防火墙配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">5. 启动服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%A2%9D%E5%A4%96%E9%85%8D%E7%BD%AE%EF%BC%88Windows%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">6. 客户端额外配置（Windows）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%8E%92%E9%94%99%E6%96%B9%E5%BC%8F"><span class="toc-number">1.7.</span> <span class="toc-text">7. 排错方式</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        配置IKEv2服务器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Qing He</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-10-31T18:09:26.000Z" class="dt-published" itemprop="datePublished">2024-11-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="搭建-IKEv2-VPN-服务器"><a href="#搭建-IKEv2-VPN-服务器" class="headerlink" title="搭建 IKEv2 VPN 服务器"></a>搭建 IKEv2 VPN 服务器</h2><p>在家中的 NAS 上搭建 IKEv2 VPN 服务器，实现多端远程组网。</p>
+<hr>
+<h3 id="1-安装所需软件"><a href="#1-安装所需软件" class="headerlink" title="1. 安装所需软件"></a>1. 安装所需软件</h3><p>安装 <code>strongswan</code> 和 <code>certbot</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S strongswan certbot</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-域名和证书配置"><a href="#2-域名和证书配置" class="headerlink" title="2. 域名和证书配置"></a>2. 域名和证书配置</h3><ol>
+<li><p><strong>设置域名 DDNS</strong><br>以域名 <code>vpn.kore.host</code> 为例。</p>
+</li>
+<li><p><strong>生成服务器私钥</strong><br>进入 <code>/etc/ipsec.d/</code> 目录，生成 RSA 私钥：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/ipsec.d/</span><br><span class="line">ipsec pki --gen --type rsa --size 4096 --outform pem &gt; private/private.pem</span><br><span class="line">chmod 600 private/private.pem</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>生成证书请求文件</strong><br>使用 OpenSSL 生成证书请求文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -key private/private.pem -out private/self.csr</span><br></pre></td></tr></table></figure>
+
+<p>需要填写相关信息，如地址、邮箱、子域名等。</p>
+</li>
+<li><p><strong>获取 Let’s Encrypt 证书</strong><br>使用 Certbot 获取证书：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot certonly --manual --csr private/self.csr</span><br></pre></td></tr></table></figure>
+
+<p>按照提示完成域名验证。</p>
+</li>
+<li><p><strong>整理证书文件</strong><br>获取到的证书文件包括 <code>0001_chain.pem</code>，将其重命名为 <code>cert.pem</code>，并按以下结构放置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/etc/ipsec.d</span><br><span class="line">├── aacerts</span><br><span class="line">├── acerts</span><br><span class="line">├── cacerts</span><br><span class="line">│   └── 0000_chain.pem</span><br><span class="line">├── certs</span><br><span class="line">│   ├── 0000_cert.pem</span><br><span class="line">│   └── cert.pem</span><br><span class="line">├── crls</span><br><span class="line">├── ocspcerts</span><br><span class="line">├── private</span><br><span class="line">│   ├── private.pem</span><br><span class="line">│   └── self.csr</span><br><span class="line">└── reqs</span><br></pre></td></tr></table></figure>
+
+<p>至此，服务器私钥和证书配置完成。</p>
+</li>
+</ol>
+<hr>
+<h3 id="3-配置文件"><a href="#3-配置文件" class="headerlink" title="3. 配置文件"></a>3. 配置文件</h3><p>编辑 <code>/etc/ipsec.conf</code> 文件，配置 IKEv2 连接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># /etc/ipsec.conf - StrongSwan IPsec 配置文件</span><br><span class="line"></span><br><span class="line">config setup</span><br><span class="line">    uniqueids = no</span><br><span class="line">    charondebug=&quot;ike 1, knl 1, cfg 0, net 0, esp 1&quot;  # 精简日志输出</span><br><span class="line"></span><br><span class="line">conn %default</span><br><span class="line">    keyexchange=ikev2              # 使用 IKEv2 交换密钥</span><br><span class="line">    ike=aes256-sha256-modp2048     # 加密算法和 DH 组</span><br><span class="line">    esp=aes256-sha256              # ESP 加密算法</span><br><span class="line">    dpdaction=clear                # 断开后清理连接</span><br><span class="line">    dpddelay=600s                  # 延长 DPD 检查时间</span><br><span class="line">    rekey=no                       # 禁止自动 rekey</span><br><span class="line">    fragmentation=yes              # 支持碎片化</span><br><span class="line">    left=%any                      # 服务器公共 IP</span><br><span class="line">    right=%any                     # 客户端 IP</span><br><span class="line">    leftauth=pubkey                # 服务器使用公钥认证</span><br><span class="line">    rightauth=eap-mschapv2         # 客户端使用 EAP MSCHAPv2 认证</span><br><span class="line">    leftsendcert=always            # 服务器总是发送证书</span><br><span class="line">    rightsendcert=never            # 客户端不发送证书</span><br><span class="line">    eap_identity=%any              # 允许任意 EAP 身份</span><br><span class="line">    leftdns=8.8.8.8                # 服务器 DNS</span><br><span class="line">    rightdns=8.8.8.8               # 客户端 DNS</span><br><span class="line">    forceencaps=no                 # 不强制封装流量</span><br><span class="line"></span><br><span class="line">conn IKEv2-EAP</span><br><span class="line">    also=%default                  # 继承默认设置</span><br><span class="line">    leftid=@vpn.kore.host          # 服务器域名</span><br><span class="line">    leftcert=/etc/ipsec.d/certs/cert.pem  # 服务器证书</span><br><span class="line">    leftsubnet=192.168.2.0/24      # 允许访问的局域网子网</span><br><span class="line">    rightsourceip=10.0.0.0/24      # 分配给客户端的 IP 范围</span><br><span class="line">    rightikeport=8484              # 使用非标准端口</span><br><span class="line">    auto=add                       # 自动添加连接</span><br><span class="line">    mobike=yes                     # 支持移动性和多主机功能</span><br><span class="line">    leftfirewall=yes               # 自动设置服务器端防火墙</span><br></pre></td></tr></table></figure>
+
+<p>编辑 <code>/etc/strongswan.conf</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">charon &#123;</span><br><span class="line">    load_modular = yes</span><br><span class="line">    compress = yes</span><br><span class="line">    plugins &#123;</span><br><span class="line">        include strongswan.d/charon/*.conf</span><br><span class="line">    &#125;</span><br><span class="line">    dns1 = 8.8.8.8</span><br><span class="line">    dns2 = 8.8.4.4</span><br><span class="line">    nbns1 = 8.8.8.8</span><br><span class="line">    nbns2 = 8.8.4.4</span><br><span class="line">&#125;</span><br><span class="line">include strongswan.d/*.conf</span><br></pre></td></tr></table></figure>
+
+<p>编辑 <code>/usr/local/etc/ipsec.secrets</code>，填写用户和密码。注意格式严格：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ipsec.secrets - strongSwan IPsec 密钥文件</span><br><span class="line">: RSA private.pem</span><br><span class="line">user1 : EAP &quot;123456789&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-防火墙配置"><a href="#4-防火墙配置" class="headerlink" title="4. 防火墙配置"></a>4. 防火墙配置</h3><p>使用 <code>ufw</code> 配置防火墙规则，以内网192.168.2.0&#x2F;24，vpn网段10.10.0.0&#x2F;24为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 500</span><br><span class="line">sudo ufw allow 4500/udp</span><br><span class="line">sudo ufw allow proto esp from any to any</span><br><span class="line">sudo ufw route allow in on eno1 from 10.10.0.0/24 to 192.168.2.0/24</span><br></pre></td></tr></table></figure>
+
+<p>编辑 <code>/etc/ufw/sysctl.conf</code>，取消注释以下行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net/ipv4/ip_forward=1</span><br><span class="line">net/ipv6/conf/default/forwarding=1</span><br><span class="line">net/ipv6/conf/all/forwarding=1</span><br></pre></td></tr></table></figure>
+
+<p>编辑 <code>/etc/ufw/before.rules</code>，添加以下规则：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">*nat</span><br><span class="line">:POSTROUTING ACCEPT [0:0]</span><br><span class="line">-A POSTROUTING -s 10.10.0.0/24 -o eno1 -m policy --pol ipsec --dir out -j ACCEPT</span><br><span class="line">-A POSTROUTING -s 10.10.0.0/24 -o eno1 -j MASQUERADE</span><br><span class="line">COMMIT</span><br><span class="line"></span><br><span class="line">*mangle</span><br><span class="line">-A FORWARD --match policy --pol ipsec --dir in -s 10.10.0.0/24 -o eno1 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1361:1536 -j TCPMSS --set-mss 1360</span><br><span class="line">COMMIT</span><br><span class="line"></span><br><span class="line">-A ufw-before-forward -s 10.10.0.0/24 -d 192.168.2.0/24 -j ACCEPT</span><br><span class="line">-A ufw-before-forward --match policy --pol ipsec --dir in --proto esp -s 10.10.0.0/24 -j ACCEPT</span><br><span class="line">-A ufw-before-forward --match policy --pol ipsec --dir out --proto esp -d 10.10.0.0/24 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>重新加载防火墙：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ufw reload</span><br></pre></td></tr></table></figure>
+
+<p>确保路由器防火墙也放行相关端口。</p>
+<hr>
+<h3 id="5-启动服务"><a href="#5-启动服务" class="headerlink" title="5. 启动服务"></a>5. 启动服务</h3><p>有两种启动方式（更建议使用第一种方式，已经按上面配置好了）：</p>
+<ol>
+<li><p><strong>通过 <code>strongswan-starter</code> 启动</strong><br>编辑 <code>/etc/ipsec.conf</code> 后，使用以下命令启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start strongswan-starter</span><br><span class="line">systemctl status strongswan-starter</span><br><span class="line">journalctl -f -u strongswan-starter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>通过 <code>swanctl</code> 管理（一种新的方式，不过参考材料较少）</strong><br>编辑 <code>/etc/swanctl/conf.d/conn.conf</code>，配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">connections &#123;</span><br><span class="line">    ikev2-eap-mschapv2 &#123;</span><br><span class="line">        version = 2</span><br><span class="line">        unique = never</span><br><span class="line">        proposals = aes256-sha256-prfsha256-modp2048, aes256gcm16-prfsha384-modp1024, default</span><br><span class="line">        rekey_time = 0s</span><br><span class="line">        pools = primary-pool-ipv4, primary-pool-ipv6</span><br><span class="line">        fragmentation = yes</span><br><span class="line">        dpd_delay = 30s</span><br><span class="line">        send_cert = always</span><br><span class="line">        local_addrs = %any</span><br><span class="line">        remote_addrs = %any</span><br><span class="line">        local_port = 500</span><br><span class="line">        remote_port = 500</span><br><span class="line">        mobike = yes</span><br><span class="line">        fragmentation = no</span><br><span class="line"></span><br><span class="line">        local &#123;</span><br><span class="line">            auth = pubkey</span><br><span class="line">            certs = /etc/ipsec.d/certs/cert.pem</span><br><span class="line">            id = vpn.kore.host</span><br><span class="line">        &#125;</span><br><span class="line">        remote &#123;</span><br><span class="line">            auth = eap-mschapv2</span><br><span class="line">            eap_id = %any</span><br><span class="line">        &#125;</span><br><span class="line">        children &#123;</span><br><span class="line">            ikev2-eap-mschapv2 &#123;</span><br><span class="line">                local_ts = 192.168.2.0/24</span><br><span class="line">                rekey_time = 0s</span><br><span class="line">                dpd_action = clear</span><br><span class="line">                esp_proposals = aes256-sha256, aes128-sha1, default</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pools &#123;</span><br><span class="line">    primary-pool-ipv4 &#123;</span><br><span class="line">        addrs = 10.10.0.0/24</span><br><span class="line">        dns = 8.8.8.8,8.8.4.4</span><br><span class="line">    &#125;</span><br><span class="line">    primary-pool-ipv6 &#123;</span><br><span class="line">        addrs = fec1::0/16</span><br><span class="line">        dns = 2001:4860:4860::8888,2606:4700:4700::1111</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">secrets &#123;</span><br><span class="line">    private-www &#123;</span><br><span class="line">        file = /etc/ipsec.d/private/privkey.pem</span><br><span class="line">    &#125;</span><br><span class="line">    eap-test &#123;</span><br><span class="line">        id = test</span><br><span class="line">        secret = &quot;123321&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h3 id="6-客户端额外配置（Windows）"><a href="#6-客户端额外配置（Windows）" class="headerlink" title="6. 客户端额外配置（Windows）"></a>6. 客户端额外配置（Windows）</h3><p>上面的配置结论是：vpn分配内网10.10.0.0&#x2F;24网段，只允许访问192.168.2.0&#x2F;24网段，外网的权限不开放。这会导致Windows连接上vpn后无法访问互联网。</p>
+<p>原因是Windows 不支持自动分流，可以通过更改路由规则来简单实现分流，需手动配置路由规则：</p>
+<ol>
+<li><p>打开网络控制面板，找到 VPN 连接，右键选择“属性”。</p>
+</li>
+<li><p>在“网络”标签中，双击“IPv4 协议”，进入“高级”设置，取消勾选“使用默认网关”。</p>
+</li>
+<li><p>使用管理员权限打开命令提示符，输入以下命令查找 VPN 连接的接口编号：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route print | findstr HomeNAS</span><br></pre></td></tr></table></figure>
+
+<p>记录最前面的数字（例如 28）。</p>
+</li>
+<li><p>添加静态路由规则：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add 192.168.2.0/24 0.0.0.0 if 28</span><br></pre></td></tr></table></figure>
+
+<p>如需永久生效，添加 <code>-p</code> 参数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route -p add 192.168.2.0/24 0.0.0.0 if 28</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新连接 VPN 即可。</p>
+</li>
+</ol>
+<hr>
+<h3 id="7-排错方式"><a href="#7-排错方式" class="headerlink" title="7. 排错方式"></a>7. 排错方式</h3><ol>
+<li><p><strong>查看 StrongSwan 日志</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u -f strongswan-starter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看防火墙拦截日志</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -f | grep BLOCK</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<p>通过以上步骤，您可以成功搭建并配置 IKEv2 VPN 服务器，实现多端远程组网。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA-IKEv2-VPN-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">搭建 IKEv2 VPN 服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85%E6%89%80%E9%9C%80%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">1. 安装所需软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%9F%E5%90%8D%E5%92%8C%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">2. 域名和证书配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">3. 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">4. 防火墙配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">5. 启动服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%A2%9D%E5%A4%96%E9%85%8D%E7%BD%AE%EF%BC%88Windows%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">6. 客户端额外配置（Windows）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%8E%92%E9%94%99%E6%96%B9%E5%BC%8F"><span class="toc-number">1.7.</span> <span class="toc-text">7. 排错方式</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&text=配置IKEv2服务器"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&is_video=false&description=配置IKEv2服务器"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=配置IKEv2服务器&body=Check out this article: https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&title=配置IKEv2服务器"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&name=配置IKEv2服务器&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.binbla.com/2024/11/01/how-to-set-up-a-ikev2-server/&t=配置IKEv2服务器"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    Qing He
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/binbla">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
